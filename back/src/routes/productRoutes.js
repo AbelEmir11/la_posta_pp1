@@ -5,6 +5,7 @@ const router = express.Router();
 const ProductController = require('../controllers/productController');
 
 // Rutas para productos
+router.get('/productos', ProductController.getAllProducts);
 router.post('/', ProductController.createProduct);
 router.post('/bulk-insert', ProductController.bulkInsertProducts);
 router.get('/', ProductController.getAllProducts);

@@ -20,8 +20,9 @@ const Product = sequelize.define('Product', {
     imagen: {
         type: DataTypes.STRING
     },
-    categoria_id: {
-        type: DataTypes.STRING
+    categoria_1: {
+        type: DataTypes.STRING,
+        field: 'categoria_1'
     }
 }, {
     tableName: 'productos', // Nombre de la tabla en la base de datos
