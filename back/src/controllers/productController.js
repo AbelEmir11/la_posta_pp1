@@ -1,6 +1,5 @@
 const Product = require('../models/productModels');
 
-
 // Insertar múltiples productos a la vez
 exports.bulkInsertProducts = async (req, res) => {
   try {
@@ -29,10 +28,10 @@ exports.createProduct = async (req, res) => {
 };
 
 // Obtener todos los productos
-
 exports.getAllProducts = async (req, res) => {
     try {
         const products = await Product.findAll();
+        console.log("Productos obtenidos:", products); // Agregar este log para depuración
         res.status(200).json(products);
     } catch (error) {
         res.status(500).json({ message: error.message });

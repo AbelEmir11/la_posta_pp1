@@ -71,6 +71,8 @@ function cargarProductos() {
                 const productoElement = document.createElement('div');
                 productoElement.classList.add("producto");
                 productoElement.setAttribute("data-id", producto.id);
+                productoElement.setAttribute("data-precio", producto.precio); // ✅ Agregar precio como atributo
+
                 productoElement.innerHTML = `
                     <img class="producto-imagen" src="imagenes/${producto.imagen}" alt="${producto.nombre}">
                     <h3>${producto.nombre}</h3>
@@ -96,13 +98,13 @@ function cargarProductos() {
                     const productoElement = this.closest(".producto");
                     const productoId = productoElement.getAttribute("data-id");
                     const productoNombre = productoElement.querySelector("h3").innerText;
-                    const productoPrecio = productoElement.querySelector("p strong").innerText.replace("Precio: $", "");
                     const productoImagen = productoElement.querySelector("img").getAttribute("src");
+                    const productoPrecio = parseFloat(productoElement.getAttribute("data-precio"));
 
                     const producto = {
                         id: productoId,
                         nombre: productoNombre,
-                        precio: parseFloat(productoPrecio),
+                        precio: productoPrecio,
                         imagen: productoImagen
                     };
 
@@ -115,7 +117,21 @@ function cargarProductos() {
 
 function agregarAlCarrito(producto) {
     let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-    carrito.push(producto);
+
+    let productoExistente = carrito.find(item => item.id === producto.id);
+    
+    if (productoExistente) {
+        productoExistente.cantidad++;
+    } else {
+        carrito.push({
+            id: producto.id,
+            nombre: producto.nombre,
+            precio: parseFloat(producto.precio), // ✅ Convertir a número
+            imagen: producto.imagen,
+            cantidad: 1
+        });
+    }
+    
     localStorage.setItem("carrito", JSON.stringify(carrito));
     mostrarMensaje(`${producto.nombre} se agregó al carrito`);
     mostrarCarrito();

@@ -185,6 +185,14 @@ button.agregar-carrito:hover {
     padding: 10px;
     cursor: pointer;
 }
+#comprar {
+    margin-top: 10px;
+    background-color: rgb(12, 65, 161);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
 .fb-logo {
     size: 2px;
 }
