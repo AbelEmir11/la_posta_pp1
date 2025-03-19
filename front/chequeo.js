@@ -22,7 +22,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Validación simple
         if (!nombre || !direccion || !email || !telefono || carrito.length === 0) {
-            alert("Por favor, complete todos los campos y asegúrese de tener productos en el carrito.");
+            Swal.fire({
+                title: "uupss",
+                text: "Por favor, completa todos los campos y agrega productos al carrito.",
+                icon: "warning",
+                confirmButtonText: "Aceptar"
+            });
+
+
             return;
         }
 
@@ -48,15 +55,69 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const resultado = await respuesta.json();
             if (respuesta.ok) {
-                alert("¡Pedido realizado con éxito!");
+                Swal.fire({
+                    title: "¡Pedido realizado con éxito!",
+                    text: "En breve nos comunicaremos con usted para coordinar la entrega.",
+                    icon: "success",
+                    confirmButtonText: "Aceptar"
+                  
+                });
+                
                 localStorage.removeItem("carrito"); // Vaciar el carrito después de la compra
-                window.location.href = "confirmacion.html"; // Redirigir a página de confirmación
+           
             } else {
                 alert("Hubo un problema al procesar el pedido: " + resultado.error);
             }
         } catch (error) {
             console.error("Error al enviar el pedido:", error);
-            alert("Error al conectar con el servidor. Intente nuevamente.");
+            Swal.fire({
+                title: "¡Error!",
+                text: "Ocurrió un error al enviar el pedido. Por favor, intenta nuevamente.",
+                icon: "error",
+                confirmButtonText: "Aceptar"
+            });
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const metodoPagoSelect = document.getElementById('metodo_pago');
+    const contenedorPago = document.getElementById('contenedor-pago');
+
+    metodoPagoSelect.addEventListener('change', () => {
+        const metodoSeleccionado = metodoPagoSelect.value;
+        contenedorPago.innerHTML = ''; // Limpiar contenido previo
+        contenedorPago.style.display = 'none'; // Ocultar contenedor por defecto
+
+        if (metodoSeleccionado === 'tarjeta' || metodoSeleccionado === 'debito') {
+            contenedorPago.style.display = 'block';
+            contenedorPago.innerHTML = `
+                <h3>Detalles de la Tarjeta</h3>
+                <div class="mb-3">
+                    <label for="numero_tarjeta" class="form-label">Número de la Tarjeta</label>
+                    <input type="text" class="form-control" id="numero_tarjeta" placeholder="XXXX XXXX XXXX XXXX" required>
+                </div>
+                <div class="mb-3">
+                    <label for="nombre_tarjeta" class="form-label">titular de la tarjeta</label>
+                    <input type="text" class="form-control" id="nombre_tarjeta" placeholder="Como aparece en la tarjeta" required>
+                </div>
+                <div class="mb-3">
+                    <label for="fecha_vencimiento" class="form-label">Fecha de Vencimiento</label>
+                    <input type="text" class="form-control" id="fecha_vencimiento" placeholder="MM/AA" required>
+                </div>
+                <div class="mb-3">
+                    <label for="codigo_cvv" class="form-label">Código CVV</label>
+                    <input type="text" class="form-control" id="codigo_cvv" placeholder="XXX" required>
+                </div>
+                
+            `;
+        } else if (metodoSeleccionado === 'efectivo') {
+            contenedorPago.style.display = 'block';
+            contenedorPago.innerHTML = `
+                <h3>Pago en Efectivo</h3>
+                <p>Usted ha seleccionado pagar en efectivo. Por favor, prepare el monto exacto para el momento de la entrega.</p>
+               
+            `;
         }
     });
 });

@@ -45,8 +45,8 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("Respuesta del servidor:", data);
           
             Swal.fire({
-                title: "¡Pedido realizado con éxito!",
-                text: "Tu pedido ha sido registrado correctamente.",
+                title: "¡Consulta realizada con éxito!",
+                text: "En cuanto leamos tu mensaje lo responderemos al correo que adjuntaste.",
                 icon: "success",
                 confirmButtonText: "Aceptar" 
             });// Muestra el cartel emergente
@@ -165,7 +165,9 @@ function agregarAlCarrito(producto) {
     }
     
     localStorage.setItem("carrito", JSON.stringify(carrito));
+    
     mostrarMensaje(`${producto.nombre} se agregó al carrito`);
+
     mostrarCarrito();
 }
 
@@ -173,13 +175,13 @@ function mostrarMensaje(mensaje) {
     const notificacion = document.createElement("div");
     notificacion.innerText = mensaje;
     notificacion.style.position = "fixed";
-    notificacion.style.top = "20px";
-    notificacion.style.right = "20px";
+    notificacion.style.top = "10px";
+    notificacion.style.right = "10px";
     notificacion.style.backgroundColor = "#28a745";
     notificacion.style.color = "white";
-    notificacion.style.padding = "10px";
-    notificacion.style.borderRadius = "5px";
-    notificacion.style.boxShadow = "0px 0px 10px rgba(0,0,0,0.3)";
+    notificacion.style.padding = "20px";
+    notificacion.style.borderRadius = "25px";
+    notificacion.style.boxShadow = "0px 0px 10px rgba(77, 207, 73, 0.9)";
     document.body.appendChild(notificacion);
 
     setTimeout(() => {

@@ -15,6 +15,7 @@ footer {
     background-color: lightgreen;
     padding: 10px;
     text-align: center;
+    margin-top: auto;
 }
 /* Barra de navegación */
 nav ul {
