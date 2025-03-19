@@ -100,12 +100,15 @@ function cargarProductos() {
                     const productoNombre = productoElement.querySelector("h3").innerText;
                     const productoImagen = productoElement.querySelector("img").getAttribute("src");
                     const productoPrecio = parseFloat(productoElement.getAttribute("data-precio"));
+                    const productoStock = parseInt(productoElement.querySelector("p:nth-of-type(3) strong").nextSibling.nodeValue.trim());
 
+                    
                     const producto = {
                         id: productoId,
                         nombre: productoNombre,
                         precio: productoPrecio,
-                        imagen: productoImagen
+                        imagen: productoImagen,
+                        stock: productoStock
                     };
 
                     agregarAlCarrito(producto);
@@ -121,14 +124,22 @@ function agregarAlCarrito(producto) {
     let productoExistente = carrito.find(item => item.id === producto.id);
     
     if (productoExistente) {
-        productoExistente.cantidad++;
+        if (productoExistente.cantidad < producto.stock) {
+            productoExistente.cantidad++;
+        
     } else {
+        alert(`No puedes agregar más de ${producto.stock} unidades de ${producto.nombre}.`);
+        return; // ❌ No agregamos más si se supera el stock
+    }
+    
+}else {
         carrito.push({
             id: producto.id,
             nombre: producto.nombre,
-            precio: parseFloat(producto.precio), // ✅ Convertir a número
+            precio: parseFloat(producto.precio), 
             imagen: producto.imagen,
-            cantidad: 1
+            cantidad: 1,
+            stock: producto.stock
         });
     }
     

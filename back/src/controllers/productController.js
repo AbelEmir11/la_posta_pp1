@@ -78,3 +78,23 @@ exports.deleteProduct = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+exports.obtenerProductos = async (req, res) => {
+    try {
+        const productos = await Producto.findAll();
+        res.json(productos);
+    } catch (error) {
+        console.error("Error al obtener productos:", error);
+        res.status(500).json({ message: "Error al obtener productos" });
+    }
+};
+exports.crearPedido = async (req, res) => {
+    try {
+        console.log(req.body);  // 👀 Verifica qué datos llegan
+        const nuevoPedido = await Pedido.create(req.body);
+        res.status(201).json({ message: "Pedido registrado con éxito", pedido: nuevoPedido });
+    } catch (error) {
+        console.error("Error al registrar el pedido:", error);
+        res.status(500).json({ message: "Error al registrar el pedido" });
+    }
+};
+

@@ -4,6 +4,7 @@ const cors = require('cors');
 const path = require('path');
 const productRoutes = require('./routes/productRoutes');
 const contactRoutes = require('./routes/contactRoutes');
+const pedidosRoutes = require('./routes/pedidosRoutes');
 const db = require('./config/db');
 
 const app = express();
@@ -23,6 +24,7 @@ db.authenticate()
 
     // Rutas
 app.use('/api/productos', productRoutes);
+app.use('/api/pedidos', pedidosRoutes);
 app.use("/", contactRoutes);
 
 
