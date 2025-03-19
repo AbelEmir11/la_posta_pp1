@@ -23,7 +23,12 @@ document.addEventListener("DOMContentLoaded", function () {
         const mensaje = document.getElementById("mensaje").value.trim();
 
         if (!nombre || !email || !mensaje) {
-            alert("Por favor, completa todos los campos.");
+            Swal.fire({
+                title: "¡nono",
+                text: "Por favor, completa todos los campos, bobi.",
+                icon: "error",
+                confirmButtonText: "Aceptar"
+            });
             return;
         }
 
@@ -38,12 +43,23 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(response => response.json())
         .then(data => {
             console.log("Respuesta del servidor:", data);
-            alert("Gracias por tu mensaje. Nos pondremos en contacto contigo pronto."); // Muestra el cartel emergente
+          
+            Swal.fire({
+                title: "¡Pedido realizado con éxito!",
+                text: "Tu pedido ha sido registrado correctamente.",
+                icon: "success",
+                confirmButtonText: "Aceptar" 
+            });// Muestra el cartel emergente
             formulario.reset(); // Limpia el formulario
         })
         .catch(error => {
             console.error("Error:", error);
-            alert("Hubo un problema al enviar el mensaje.");
+            Swal.fire({
+                title: "¡Error!",
+                text: "Ocurrió un error al enviar el pedido. Por favor, intenta nuevamente.",
+                icon: "error",
+                confirmButtonText: "Aceptar"
+            });
         });
     });
 });
@@ -128,7 +144,12 @@ function agregarAlCarrito(producto) {
             productoExistente.cantidad++;
         
     } else {
-        alert(`No puedes agregar más de ${producto.stock} unidades de ${producto.nombre}.`);
+            Swal.fire({
+                title: "¡Stock insuficiente!",
+                text: "disculpa, somos un negocio chico y no tenemos tanto stock de este producto.",
+                icon: "error",
+                confirmButtonText: "Aceptar"
+            });
         return; // ❌ No agregamos más si se supera el stock
     }
     
