@@ -75,11 +75,13 @@ function cargarProductos() {
             console.log("Productos obtenidos:", data);
        
             const contenedorConservas = document.getElementById("productos-conservas"); 
+            const contenedorBebidas = document.getElementById("productos-bebidas");
             const contenedorArtesanias = document.getElementById("productos-artesanias"); 
             const contenedorCuidadoPersonal = document.getElementById("productos-cuidado-personal"); 
 
             // Limpiar antes de agregar nuevos productos
             contenedorConservas.innerHTML = "";
+            contenedorBebidas.innerHTML = "";
             contenedorArtesanias.innerHTML = "";
             contenedorCuidadoPersonal.innerHTML = "";
 
@@ -101,6 +103,9 @@ function cargarProductos() {
                 // Insertar en el contenedor correspondiente según la categoría
                 if (producto.categoria_1.toLowerCase() === "conservas") {
                     contenedorConservas.appendChild(productoElement);
+                } else if (producto.categoria_1.toLowerCase() === "bebidas") {
+                    contenedorBebidas.appendChild(productoElement);
+
                 } else if (producto.categoria_1.toLowerCase() === "artesanias") {
                     contenedorArtesanias.appendChild(productoElement);
                 } else if (producto.categoria_1.toLowerCase() === "cuidado personal") {
@@ -146,7 +151,7 @@ function agregarAlCarrito(producto) {
     } else {
             Swal.fire({
                 title: "¡Stock insuficiente!",
-                text: "disculpa, somos un negocio chico y no tenemos tanto stock de este producto.",
+                text: "En caso de precisar más unidades, por favor, comuníquese con nosotros a traves de la sección de contacto", 
                 icon: "error",
                 confirmButtonText: "Aceptar"
             });
