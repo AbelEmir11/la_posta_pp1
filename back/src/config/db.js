@@ -7,7 +7,7 @@ const sequelize = new Sequelize(
     {
         host: process.env.DB_HOST || 'localhost', // Dirección del host
         dialect: 'mysql',  // Usamos MySQL
-        logging: console.log, // Para mostrar las consultas SQL que se realizan
+        logging: false, // Para mostrar las consultas SQL que se realizan
     }
 );
 
