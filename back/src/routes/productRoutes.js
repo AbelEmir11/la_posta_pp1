@@ -15,13 +15,6 @@ router.get('/', ProductController.getAllProducts);
 router.get('/:id', ProductController.getProductById);
 router.put('/:id', ProductController.updateProduct);
 router.delete('/:id', ProductController.deleteProduct);
-router.get('/test-db', async (req, res) => {
-    try {
-        await sequelize.authenticate();
-        res.json({ message: 'Conexión a la base de datos exitosa 🚀' });
-    } catch (error) {
-        res.status(500).json({ error: 'Error al conectar a la base de datos', details: error.message });
-    }
-});
+
 
 module.exports = router;
