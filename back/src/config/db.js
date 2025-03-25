@@ -6,7 +6,7 @@ const sequelize = new Sequelize(
     process.env.DB_PASSWORD ,// Contraseña de la base de datos
     {
         host: process.env.DB_HOST || 'localhost', // Dirección del host
-        port: process.env.DB_PORT || 3001,
+        port: process.env.DB_PORT || 3306,
         dialect: 'mysql',  // Usamos MySQL
         logging: false, // Para mostrar las consultas SQL que se realizan
     }
