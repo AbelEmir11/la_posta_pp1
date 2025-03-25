@@ -21,14 +21,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 db.authenticate()
     .then(() => console.log('Conectado a la base de datos'))
     .catch(err => console.error('Error al conectar a la base de datos:', err));
-    app.get('/test-db', async (req, res) => {
-        try {
-            await db.authenticate();
-            res.json({ message: 'Conexión a la base de datos exitosa 🚀' });
-        } catch (error) {
-            res.status(500).json({ error: 'Error al conectar a la base de datos', details: error.message });
-        }
-    });
+    
+
     
     // Rutas
 app.use('/api/productos', productRoutes);
@@ -47,4 +41,12 @@ app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
 
+app.get('/test-db', async (req, res) => {
+    try {
+        await db.authenticate();
+        res.json({ message: 'Conexión a la base de datos exitosa 🚀' });
+    } catch (error) {
+        res.status(500).json({ error: 'Error al conectar a la base de datos', details: error.message });
+    }
+});
 
