@@ -1,24 +1,26 @@
-const { Sequelize } = require('sequelize');
+const { Sequelize } = require("sequelize");
+require("dotenv").config(); // Cargar variables de entorno
 
-const sequelize = new Sequelize(
-    process.env.DB_NAME , // Nombre de la base de datos
-    process.env.DB_USER ,     // Usuario de la base de datos
-    process.env.DB_PASSWORD ,// Contraseña de la base de datos
-    {
-        host: process.env.DB_HOST || 'localhost', // Dirección del host
-        port: process.env.DB_PORT || 3306,
-        dialect: 'mysql',  // Usamos MySQL
-        logging: false, // Para mostrar las consultas SQL que se realizan
-    }
-);
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
+  host: process.env.DB_HOST,
+  dialect: "mysql", // ⚠️ Agregar esto es clave para evitar el error
+  dialectOptions: {
+    connectTimeout: 60000, // Aumenta el tiempo de espera en milisegundos
+  },
+  logging: console.log, // Mostrar logs de Sequelize en la consola
+});
 
-// Testeamos la conexión con la base de datos
-sequelize.authenticate()
-    .then(() => {
-        console.log('Conexión exitosa a la base de datos');
-    })
-    .catch((error) => {
-        console.error('Error al conectar a la base de datos:', error);
-    });
+// Probar conexión
+async function testDBConnection() {
+  try {
+    await sequelize.authenticate();
+    console.log("✅ Conexión a la base de datos establecida correctamente.");
+  } catch (error) {
+    console.error("❌ Error al conectar a la base de datos:", error);
+  }
+}
 
-module.exports = sequelize;  // Exportamos la instancia de Sequelize
+testDBConnection();
+
+module.exports = sequelize;
+
