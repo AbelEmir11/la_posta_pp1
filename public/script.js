@@ -33,13 +33,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // Enviar los datos al backend
-        fetch("http://localhost:3001/contacto", {
+       fetch('/api/contacto'), {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({ nombre, email, mensaje }),
-        })
+        }
         .then(response => response.json())
         .then(data => {
             console.log("Respuesta del servidor:", data);
@@ -69,7 +69,8 @@ document.addEventListener("DOMContentLoaded", function () {
     cargarProductos();
 })
 function cargarProductos() {
-    fetch("http://localhost:3001/api/productos")
+    fetch('/api/productos') 
+
         .then(response => response.json())
         .then(data => {
             console.log("Productos obtenidos:", data);
