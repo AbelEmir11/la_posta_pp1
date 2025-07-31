@@ -2,8 +2,7 @@
   "version": 2,
   "functions": {
     "api/productos.cjs": {
-      "runtime": "nodejs18.x",
-      "launcherType": "Nodejs"
+      "runtime": "nodejs18.x"
     }
   },
   "routes": [
