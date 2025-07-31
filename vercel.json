@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "functions": {
+    "api/productos.cjs": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/productos",
+      "dest": "/api/productos.cjs"
+    }
+  ]
+}
