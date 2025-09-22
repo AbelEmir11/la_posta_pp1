@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!nombre || !email || !mensaje) {
             Swal.fire({
                 title: "¡nono",
-                text: "Por favor, completa todos los campos, bobi.",
+                text: "Por favor, completa todos los campos.",
                 icon: "error",
                 confirmButtonText: "Aceptar"
             });
