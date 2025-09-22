@@ -1,3 +1,81 @@
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM cargado');
+    
+    // Seleccionar todos los botones de agregar al carrito
+    const botonesAgregar = document.querySelectorAll('.carrito');
+    console.log('Botones encontrados:', botonesAgregar.length);
+    
+    // Agregar evento click a cada botón
+    botonesAgregar.forEach(boton => {
+        boton.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Botón clickeado');
+            
+            // Obtener el contenedor del producto
+            const productoDiv = this.closest('.producto');
+            console.log('Contenedor del producto:', productoDiv);
+            
+            if (!productoDiv) {
+                console.error('No se encontró el contenedor del producto');
+                return;
+            }
+
+            // Extraer datos del producto
+            const producto = {
+                id: productoDiv.dataset.id,
+                nombre: productoDiv.querySelector('h4').textContent,
+                precio: parseFloat(productoDiv.querySelector('p:nth-of-type(2)').textContent.replace(/[^\d.]/g, '')),
+                imagen: productoDiv.querySelector('img').src,
+                cantidad: 1,
+                stock: parseInt(productoDiv.dataset.stock || '10')
+            };
+            
+            console.log('Datos del producto:', producto);
+            
+            // Obtener carrito actual
+            let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+            
+            // Buscar si el producto ya existe
+            const productoExistente = carrito.find(item => item.id === producto.id);
+            
+            if (productoExistente) {
+                if (productoExistente.cantidad < producto.stock) {
+                    productoExistente.cantidad++;
+                    Swal.fire({
+                        toast: true,
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Producto actualizado en el carrito',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Stock insuficiente',
+                        text: 'No hay más unidades disponibles de este producto'
+                    });
+                    return;
+                }
+            } else {
+                carrito.push(producto);
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Producto agregado al carrito',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+            
+            // Guardar carrito actualizado
+            localStorage.setItem('carrito', JSON.stringify(carrito));
+            console.log('Carrito actualizado:', carrito);
+        });
+    });
+});
+
 // Desplazamiento suave en el menú
 document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {

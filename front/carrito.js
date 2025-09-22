@@ -3,23 +3,33 @@ console.log("carrito.js cargado correctamente");
 
 const listaCarrito = document.getElementById("lista-carrito");
 function actualizarCarrito() {
-        listaCarrito.innerHTML = "";
-        const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    console.log('Actualizando carrito...');
+    listaCarrito.innerHTML = "";
+    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    console.log('Productos en carrito:', carrito);
 
     if (carrito.length === 0) {
-        listaCarrito.innerHTML = "<p>El carrito está vacío.</p>";
+        listaCarrito.innerHTML = "<p class='text-center'>El carrito está vacío.</p>";
     } else {
         carrito.forEach((producto, index) => {
             const item = document.createElement("div");
-            item.classList.add("carrito-item");
+            item.classList.add("carrito-item", "mb-3");
             item.innerHTML = `
-                <img src="${producto.imagen}" width="50">
-                <p><strong>${producto.nombre}</strong></p>
-                <p>Precio: ${producto.precio.toFixed(2)}</p>
-                <p>Stock disponible: ${producto.stock}</p>
-                <p>Cantidad en carrito: ${producto.cantidad}</p>
-                <input type="number" class="cantidad-producto" data-index="${index}" value="${producto.cantidad}" min="1" max="${producto.stock}">
-                <button class="eliminar-producto" data-index="${index}">Eliminar</button>
+                <div class="d-flex align-items-center">
+                    <img src="${producto.imagen}" alt="${producto.nombre}" width="100" class="img-thumbnail me-3">
+                    <div class="flex-grow-1">
+                        <h5 class="mb-0">${producto.nombre}</h5>
+                        <p class="mb-1">Precio: $${producto.precio.toFixed(2)}</p>
+                        <div class="d-flex align-items-center">
+                            <input type="number" class="form-control cantidad-producto me-2" 
+                                style="width: 80px" data-index="${index}" 
+                                value="${producto.cantidad}" min="1" max="${producto.stock}">
+                            <button class="btn btn-danger eliminar-producto" data-index="${index}">
+                                <i class="fas fa-trash"></i> Eliminar
+                            </button>
+                        </div>
+                    </div>
+                </div>
             `;
             listaCarrito.appendChild(item);
         });
@@ -55,20 +65,36 @@ const btnVaciarCarrito = document.getElementById("vaciar-carrito");
             let producto = carrito[index];
     
             if (nuevaCantidad > producto.stock) {
-                alert(`La cantidad no puede superar el stock disponible (${producto.stock}) para ${producto.nombre}.`);
+                Swal.fire({
+                    title: 'Stock insuficiente',
+                    text: `La cantidad no puede superar el stock disponible (${producto.stock}) para ${producto.nombre}.`,
+                    icon: 'warning',
+                    confirmButtonText: 'Entendido'
+                });
                 event.target.value = producto.stock;
                 producto.cantidad = producto.stock;
-
             } else if (nuevaCantidad < 1) {
-                alert("La cantidad mínima es 1.");
+                Swal.fire({
+                    title: 'Cantidad inválida',
+                    text: 'La cantidad mínima es 1.',
+                    icon: 'warning',
+                    confirmButtonText: 'Entendido'
+                });
                 event.target.value = 1;
                 producto.cantidad = 1;
             } else {
                 producto.cantidad = nuevaCantidad;
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Cantidad actualizada',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             }
             
             localStorage.setItem("carrito", JSON.stringify(carrito));
-            console.log("Carrito después de cambiar la cantidad:", carrito);
             actualizarCarrito();
         }
     });

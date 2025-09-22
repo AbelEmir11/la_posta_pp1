@@ -144,7 +144,7 @@ button.agregar-carrito {
 }
 
 button.agregar-carrito:hover {
-    background-color: darkgreen;
+    background-color: rgb(11, 136, 11);
 }
 
 /* Carrusel */

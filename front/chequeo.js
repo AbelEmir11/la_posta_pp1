@@ -44,35 +44,29 @@ document.addEventListener("DOMContentLoaded", function () {
         };
 
         try {
-            // Enviar los datos al backend usando fetch
-            const respuesta = await fetch("http://localhost:3001/api/pedidos/crear", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(pedido)
-            });
+            // Guardar el pedido en localStorage
+            const pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
+            pedido.fecha = new Date().toISOString();
+            pedido.id = Date.now();
+            pedidos.push(pedido);
+            localStorage.setItem('pedidos', JSON.stringify(pedidos));
 
-            const resultado = await respuesta.json();
-            if (respuesta.ok) {
-                Swal.fire({
-                    title: "¡Pedido realizado con éxito!",
-                    text: "En breve nos comunicaremos con usted para coordinar la entrega.",
-                    icon: "success",
-                    confirmButtonText: "Aceptar"
-                  
-                });
-                
-                localStorage.removeItem("carrito"); // Vaciar el carrito después de la compra
-           
-            } else {
-                alert("Hubo un problema al procesar el pedido: " + resultado.error);
-            }
+            Swal.fire({
+                title: "¡Pedido realizado con éxito!",
+                text: "Gracias por tu compra. En breve nos comunicaremos contigo para coordinar la entrega.",
+                icon: "success",
+                confirmButtonText: "Aceptar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    localStorage.removeItem("carrito"); // Vaciar el carrito después de la compra
+                    window.location.href = "productos.html"; // Redirigir a la página de productos
+                }
+            });
         } catch (error) {
-            console.error("Error al enviar el pedido:", error);
+            console.error("Error al procesar el pedido:", error);
             Swal.fire({
                 title: "¡Error!",
-                text: "Ocurrió un error al enviar el pedido. Por favor, intenta nuevamente.",
+                text: "Ocurrió un error al procesar el pedido. Por favor, intenta nuevamente.",
                 icon: "error",
                 confirmButtonText: "Aceptar"
             });
