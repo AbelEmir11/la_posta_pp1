@@ -10,6 +10,7 @@ header {
     background-color:rgb(79, 158, 79);
     padding: 10px;
     text-align: center;
+    
 }
 footer {
     background-color: lightgreen;
@@ -34,7 +35,7 @@ nav ul li {
 nav ul li a {
     text-decoration: none;
     color: #333;
-    box-shadow: 0px 0px 10px rgba(20, 190, 28, 0.808);
+    box-shadow: 0px 0px 10px rgb(8, 255, 24);
 }
 .navbar-nav {
     display:contents;
@@ -202,4 +203,93 @@ button.agregar-carrito:hover {
 }
 .fb-logo {
     size: 2px;
+}
+
+/* Botón scroll to top */
+.scroll-top-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(79, 158, 79, 0.9);
+    color: white;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: none; /* Cambiamos a display none/flex en lugar de opacity */
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    z-index: 9999;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.scroll-top-btn.show {
+    display: flex; /* Cambiamos a display flex cuando está visible */
+}
+
+.scroll-top-btn:hover {
+    background-color: rgb(0, 73, 141);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.scroll-top-btn i {
+    color: white; /* Aseguramos que el ícono sea blanco */
+}
+
+/* Estilos mejorados para la sección social */
+.social {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 2rem auto;
+    max-width: 600px;
+}
+
+.social h3 {
+    color: #333;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+}
+
+.social p {
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.social-icon {
+    display: flex;
+    align-items: center;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+}
+
+.social-icon img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.social-icon span {
+    color: #333;
+    font-weight: 500;
+}
+
+.social-icon:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }

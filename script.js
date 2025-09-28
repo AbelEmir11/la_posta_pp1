@@ -301,32 +301,30 @@ document.getElementById("vaciar-carrito").addEventListener("click", () => {
     localStorage.removeItem("carrito");
     mostrarCarrito();
 });              
-/*
-document.addEventListener("click", function(event) {
-    if (event.target.classList.contains("agregar-carrito")) {
-        const productoElement = event.target.closest(".producto");
-        const productoId = productoElement.getAttribute("data-id");
-        const productoNombre = productoElement.querySelector("h3").innerText;
-        const productoPrecio = productoElement.querySelectorAll("p")[2].innerText.replace("Precio: $", "");
 
-
-        const producto = {
-            id: productoId,
-            nombre: productoNombre,
-            precio: parseFloat(productoPrecio)
-        };
-
-        carrito.push(producto);
-        localStorage.setItem("carrito", JSON.stringify(carrito));
-        
-
-        console.log("Producto agregado al carrito:", producto);
-        console.log("Carrito actual:", carrito);
-    }
-});
-*/
-// Validación del formulario de contacto
 document.getElementById('contactForm').onsubmit = function(event) {
     event.preventDefault();
     this.submit();
 };
+
+// Funcionalidad del botón scroll to top
+document.addEventListener('DOMContentLoaded', function() {
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    
+    if (scrollTopBtn) {
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 100) {
+                scrollTopBtn.classList.add('show');
+            } else {
+                scrollTopBtn.classList.remove('show');
+            }
+        });
+        
+        scrollTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+});

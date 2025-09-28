@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Postaproductos</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="img" href="imagenes/la posta frente.jpg">
+    <link rel="icon" href="imagenes/logo color.jpg" type="image/x-icon">
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  
-
-
-
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
 </head>
 <body>
     <header>
@@ -19,12 +22,10 @@
             </label>
             <nav class="navbar navbar-expand-lg">
               <div class="container">
-                  <ul class="navbar-nav mx-auto" 
-                  
-                  >
-                      <li class="nav-item"><a class="nav-link" href="#horario">Horario</a></li>
+                  <ul class="navbar-nav mx-auto">
+                      <li class="nav-item"><a class="nav-link" href="index.html#horario">Horario</a></li>
                       <li class="nav-item"><a class="nav-link" href="nosotros.html">Nosotros</a></li>
-                      <li class="nav-item"><a class="nav-link" href="index.html">Contacto</a></li>
+                      <li class="nav-item"><a class="nav-link" href="index.html#contacto">Contacto</a></li>
                       <li class="nav-item"><a class="nav-link" href="carrito.html">🛒 Ver carrito</a></li>
                       <li class="nav-item"><a class="nav-link" href="productos.html">Productos</a></li>
                   </ul>
@@ -98,7 +99,7 @@
                 <img src="imagenes/estante.jpg" class="producto-imagen" alt="imagen">
                 <div class="info">
                     <h4>Estante</h4>
-                    <p>Disfruta de los mejores estantes en nuestro local.</p>
+                    <p>Disfruta de las mejores estantes en nuestro local.</p>
                     <p>Precio: $1800</p>
                     <button class="carrito">Agregar al carrito</button>
                 </div>
@@ -288,11 +289,22 @@
         </div>
     </section>
     <footer>
-        <p>&copy;La Posta Campesina - Todos los derechos reservados</p>  
+        <p>&copy;2025 La Posta Campesina - Todos los derechos reservados</p>  
     </footer>
-    
+
+    <!-- Botón scroll to top (antes de los scripts) -->
+    <button id="scrollTopBtn" class="scroll-top-btn" title="Ir arriba">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="script.js"></script>
-
 </body>
 </html>
