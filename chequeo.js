@@ -46,10 +46,30 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
             // Guardar el pedido en localStorage
             const pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
-            pedido.fecha = new Date().toISOString();
+            pedido.fecha = new Date().toLocaleString('es-AR', {
+                dateStyle: 'short',
+                timeStyle: 'short'
+            });
             pedido.id = Date.now();
             pedidos.push(pedido);
             localStorage.setItem('pedidos', JSON.stringify(pedidos));
+
+            // Mostrar en consola el pedido realizado
+            console.log("===");
+            console.log("🛒 COMPRA REALIZADA");
+            console.log("===");
+            console.log(`Fecha: ${pedido.fecha}`);
+            console.log(`Nombre: ${pedido.nombre}`);
+            console.log(`Dirección: ${pedido.direccion}`);
+            console.log(`Email: ${pedido.email}`);
+            console.log(`Teléfono: ${pedido.telefono}`);
+            console.log(`Método de pago: ${pedido.metodo_pago}`);
+            console.log("Productos comprados:");
+            pedido.productos.forEach((prod, i) => {
+                console.log(`  ${i + 1}. ${prod.nombre} - Cantidad: ${prod.cantidad} - Precio: $${prod.precio}`);
+            });
+            console.log("---");
+            console.log("💡 Para ver el historial de compras, usa verCompras() en la consola.");
 
             Swal.fire({
                 title: "¡Pedido realizado con éxito!",

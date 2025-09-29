@@ -3,147 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Postaproductos</title>
+    <title>Productos - La Posta Campesina</title>
     <link rel="icon" type="img" href="imagenes/la posta frente.jpg">
     <link rel="icon" href="imagenes/logo color.jpg" type="image/x-icon">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- AOS Animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
 </head>
 <body>
     <header>
-        <h1>LA POSTA CAMPESINA</h1>
+        <h1 data-aos="fade-down">LA POSTA CAMPESINA</h1>
         <div class="menu">
-            <label for="bazar">
-            </label>
             <nav class="navbar navbar-expand-lg">
-              <div class="container">
-                  <ul class="navbar-nav mx-auto">
-                      <li class="nav-item"><a class="nav-link" href="index.html#horario">Horario</a></li>
-                      <li class="nav-item"><a class="nav-link" href="nosotros.html">Nosotros</a></li>
-                      <li class="nav-item"><a class="nav-link" href="index.html#contacto">Contacto</a></li>
-                      <li class="nav-item"><a class="nav-link" href="carrito.html">🛒 Ver carrito</a></li>
-                      <li class="nav-item"><a class="nav-link" href="productos.html">Productos</a></li>
-                  </ul>
-              </div>
+                <div class="container">
+                    <ul class="navbar-nav mx-auto" data-aos="fade-up" data-aos-delay="200">
+                        <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link" href="nosotros.html">Nosotras</a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.html#contacto">Contacto</a></li>
+                        <li class="nav-item"><a class="nav-link" href="carrito.html">🛒 Ver carrito</a></li>
+                        <li class="nav-item"><a class="nav-link" href="productos.html">Productos</a></li>
+                    </ul>
+                </div>
             </nav>
         </div>
     </header>
-    <section id="productos">
-        <h2>NUESTROS PRODUCTOS</h2>
-        <!-- Aquí puedes agregar información sobre los productos -->
-        <h4>Todos nuestros productos son hechos con amor, libres de quimicos y conservantes</h4>
 
-        <h3>CONSERVAS</h3>
+    <section id="productos">
+        <h2 data-aos="fade-up">NUESTROS PRODUCTOS</h2>
+        <h4 data-aos="fade-up" data-aos-delay="200">Todos nuestros productos son hechos con amor, libres de químicos y conservantes</h4>
+
+        <h3 data-aos="fade-right">CONSERVAS</h3>
         <div id="productos-conservas">
-        <div class="carrusel-item">
-            <div class="producto" data-id="1" data-stock="10">
-                <img src="imagenes/durazno hijas.jpg" class="producto-imagen" alt="imagen">
+            <div class="producto" data-id="1" data-stock="10" data-aos="flip-up" data-aos-delay="100">
+                <img src="imagenes/durazno hijas.jpg" class="producto-imagen" alt="Durazno">
                 <div class="info">
                     <h4>Durazno</h4>
-                    <p>Disfruta de las mejores duraznos en nuestro local.</p>
+                    <p> Los Durznos más dulces y jugosos los encontrás en nuestro local.
+                    </p>
                     <p>Precio: $1500</p>
                     <button class="carrito">Agregar al carrito</button>
                 </div>	
             </div>
-            <div class="producto" data-id="2" data-stock="10">
-                <img src="imagenes/dulce2.jpg" class="producto-imagen" alt="imagen">
+
+            <div class="producto" data-id="2" data-stock="10" data-aos="flip-up" data-aos-delay="150">
+                <img src="imagenes/dulce2.jpg" class="producto-imagen" alt="Dulce">
                 <div class="info">
                     <h4>Dulce</h4>
-                    <p>Disfruta de los mejores dulces en nuestro local.</p>
+                    <p>Disfruta de las mejores mermeladas en nuestro local.</p>
                     <p>Precio: $700</p>
                     <button class="carrito">Agregar al carrito</button>
                 </div>
             </div>
-            <div class="producto" data-id="3">
-                <img src="imagenes/vinoramora.jpg" class="producto-imagen" alt="imagen">
+
+            <div class="producto" data-id="3" data-aos="flip-up" data-aos-delay="200">
+                <img src="imagenes/vinoramora.jpg" class="producto-imagen" alt="Vino">
                 <div class="info">
-                    <h4>Vino</h4>
-                    <p>Disfruta de los mejores vinos en nuestro local.</p>
+                    <h4>Vino 'Ramona'</h4>
+                    <p>El vino tinto perfecto para acompañar tus comidas.</p>
                     <p>Precio: $3000</p>
                     <button class="carrito">Agregar al carrito</button>
                 </div>
             </div>
-            <div class="producto" data-id="4">
-                <img src="imagenes/dulces.jpg" class="producto-imagen" alt="imagen">
+
+            <div class="producto" data-id="4" data-aos="flip-up" data-aos-delay="250">
+                <img src="imagenes/dulces.jpg" class="producto-imagen" alt="Mermelada">
                 <div class="info">
-                    <h4>Mermelada</h4>
-                    <p>Disfruta de las mejores mermeladas en nuestro local.</p>
+                    <h4>Pan de membrillo</h4>
+                    <p>Los panes de membrillo mas deliciosos que vas a probar.</p>
                     <p>Precio: $2000</p>
                     <button class="carrito">Agregar al carrito</button>
                 </div>
             </div>
-            <div class="producto" data-id="5">
-                <img src="imagenes/verdura.jpg" class="producto-imagen" alt="imagen">
+
+            <div class="producto" data-id="5" data-aos="flip-up" data-aos-delay="300">
+                <img src="imagenes/verdura.jpg" class="producto-imagen" alt="Verdura">
                 <div class="info">
                     <h4>Verdura</h4>
-                    <p>Disfruta de las mejores verduras en nuestro local.</p>
+                    <p>Bolsones de verdura surtida, sin conservantes y al mejor precio.</p>
                     <p>Precio: $1200</p>
                     <button class="carrito">Agregar al carrito</button>
                 </div>
             </div>
-            <div class="producto" data-id="6">
-                <img src="imagenes/turron.jpg" class="producto-imagen" alt="imagen">
+
+            <div class="producto" data-id="6" data-aos="flip-up" data-aos-delay="350">
+                <img src="imagenes/turron.jpg" class="producto-imagen" alt="Turrón">
                 <div class="info">
-                    <h4>Turron</h4>
-                    <p>Disfruta de los mejores turrones en nuestro local.</p>
+                    <h4>Turrón</h4>
+                    <p> Compuestos por almendras, miel y azúcar, sin conservantes ni aditivos químicos.</p>
                     <p>Precio: $2500</p>
                     <button class="carrito">Agregar al carrito</button>
                 </div>
             </div>
-            <div class="producto" data-id="7">
-                <img src="imagenes/estante.jpg" class="producto-imagen" alt="imagen">
+
+            <div class="producto" data-id="7" data-aos="flip-up" data-aos-delay="400">
+                <img src="imagenes/gin.jpg" class="producto-imagen" alt="Estante">
                 <div class="info">
-                    <h4>Estante</h4>
-                    <p>Disfruta de las mejores estantes en nuestro local.</p>
+                    <h4>Gin 'ManGin'</h4>
+                    <p>
+                    Elaborado con ingredientes naturales ofreciendo un sabor único y refrescante.</p>
                     <p>Precio: $1800</p>
                     <button class="carrito">Agregar al carrito</button>
                 </div>
             </div>
-            <div class="producto" data-id="8">
-                <img src="imagenes/turron1.jpg"   class="producto-imagen" alt="imagen">
+
+            <div class="producto" data-id="8" data-aos="flip-up" data-aos-delay="450">
+                <img src="imagenes/turron1.jpg" class="producto-imagen" alt="Turrón">
                 <div class="info">
-                    <h4>Turron</h4>
-                    <p>Disfruta de los mejores turrones en nuestro local.</p>
-                    <p>Precio: $2500</p>
+                    <h4>Talitas</h4>
+                    <p>El aperitivo perfecto.</p>
+                    <p>Precio: $1200</p>
                     <button class="carrito">Agregar al carrito</button>
                 </div>
             </div>
         </div>
-        </div>       
-       </section>
-       
-       
-    <section id="productos">
-        <h3>ARTESANIAS</h3>
+
+        <h3 data-aos="fade-left">ARTESANÍAS</h3>
         <div id="productos-artesanias">
-        <div class="carrusel-item">
-
-            <div class="producto" data-id="1">
-
-                <img src="imagenes/atrapasueños.jpg" class="producto-imagen" alt="imagen">
+            <div class="producto" data-id="9" data-aos="flip-up" data-aos-delay="100">
+                <img src="imagenes/atrapasueños.jpg" class="producto-imagen" alt="Atrapasueños">
                 <div class="info">
                     <h4>Atrapasueños</h4>
-                    <p>Disfruta de las mejores atrapasueños en nuestro local.</p>
-                    <p>precio: $1000</p>
+                    <p>Para decorar tu habitación.</p>
+                    <p>Precio: $1000</p>
                     <button class="carrito">Agregar al carrito</button>
                 </div>
-            </div>   
-            <div class="producto" data-id="2">
-                <img src="imagenes/lana.jpg" class="producto-imagen" alt="imagen">
+            </div>
+
+            <div class="producto" data-id="10" data-aos="flip-up" data-aos-delay="150">
+                <img src="imagenes/lana.jpg" class="producto-imagen" alt="Lana">
                 <div class="info">
                     <h4>Lana</h4>
-                    <p>La mejor lana en nuestro local.</p>
+                    <p>Lana de oveja y/o cabra.</p>
                     <p>Precio: $1500</p>
                     <button class="carrito">Agregar al carrito</button>
                 </div>
             </div>
-            <div class="producto" data-id="3">
-                <img src="imagenes/chupalla.jpg" class="producto-imagen" alt="imagen">
+
+            <div class="producto" data-id="11" data-aos="flip-up" data-aos-delay="200">
+                <img src="imagenes/chupalla.jpg" class="producto-imagen" alt="Chupalla">
                 <div class="info">
                     <h4>Chupalla</h4>
                     <p>Lo mejor para el calor.</p>
@@ -151,35 +153,39 @@
                     <button class="carrito">Agregar al carrito</button>
                 </div>
             </div>
-            <div class="producto" data-id="4">
-                <img src="imagenes/jaron.jpg" class="producto-imagen" alt="imagen">
+
+            <div class="producto" data-id="12" data-aos="flip-up" data-aos-delay="250">
+                <img src="imagenes/jaron.jpg" class="producto-imagen" alt="Jarrón">
                 <div class="info">
-                    <h4>Jarron</h4>
-                    <p>hermoso para decorar tu casa.</p>
+                    <h4>Jarrón</h4>
+                    <p>Los mejores jarrones de arcilla, hermosos para decorar tu casa.</p>
                     <p>Precio: $2500</p>
                     <button class="carrito">Agregar al carrito</button>
                 </div>
             </div>
-            <div class="producto" data-id="5">
-                <img src="imagenes/lana.jpg" class="producto-imagen" alt="imagen">
+
+            <div class="producto" data-id="13" data-aos="flip-up" data-aos-delay="300">
+                <img src="imagenes/cpiko.jpg" class="producto-imagen" alt="Tejido">
                 <div class="info">
-                    <h4>Tejido</h4>
-                    <p>Lo mejor para el frio.</p>
+                    <h4>Cherrys picantes</h4>
+                    <p>Cherrys picantes para los mas picantes.  </p>
                     <p>Precio: $3000</p>
                     <button class="carrito">Agregar al carrito</button>
                 </div>
             </div>
-            <div class="producto" data-id="6">
-                <img src="imagenes/jaron.jpg" class="producto-imagen" alt="imagen">
+
+            <div class="producto" data-id="14" data-aos="flip-up" data-aos-delay="350">
+                <img src="imagenes/pelero.jpg" class="producto-imagen" alt="Jarrón">
                 <div class="info">
-                    <h4>Jarron</h4>
-                    <p>Los mejores jarrones de arciila y/o barro.</p>
+                    <h4>Pelero</h4>
+                    <p>Perfecto para ubicar al lado de tu cama</p>
                     <p>Precio: $3500</p>
                     <button class="carrito">Agregar al carrito</button>
                 </div>
             </div>
-            <div class="producto" data-id="7">
-                <img src="imagenes/tela.jpg" class="producto-imagen" alt="imagen">
+
+            <div class="producto" data-id="15" data-aos="flip-up" data-aos-delay="400">
+                <img src="imagenes/tela.jpg" class="producto-imagen" alt="Tela">
                 <div class="info">
                     <h4>Tela</h4>
                     <p>La mejor tela para tu casa.</p>
@@ -187,8 +193,9 @@
                     <button class="carrito">Agregar al carrito</button>
                 </div>
             </div>
-            <div class="producto" data-id="8">
-                <img src="imagenes/mimbre.jpg" class="producto-imagen" alt="imagen">
+
+            <div class="producto" data-id="16" data-aos="flip-up" data-aos-delay="450">
+                <img src="imagenes/mimbre.jpg" class="producto-imagen" alt="Mimbre">
                 <div class="info">
                     <h4>Mimbre</h4>
                     <p>Lo mejor para tu hogar.</p>
@@ -196,39 +203,32 @@
                     <button class="carrito">Agregar al carrito</button>
                 </div>
             </div>
-            <div class="producto" data-id="9">
-                <img src="imagenes/mimbre1.jpg" class="producto-imagen" alt="imagen">
+
+            <div class="producto" data-id="17" data-aos="flip-up" data-aos-delay="500">
+                <img src="imagenes/mimbre1.jpg" class="producto-imagen" alt="Mimbre">
                 <div class="info">
                     <h4>Mimbre</h4>
-                    <p>Lo mejor para tu hogar.</p>
+                    <p>Todo tipo de artesania en mimbre.</p>
                     <p>Precio: $4500</p>
                     <button class="carrito">Agregar al carrito</button>
                 </div>
-
             </div>
-            <div class="producto" data-id="10">
-                <img src="imagenes/artesania.jpg" class="producto-imagen" alt="imagen">
+
+            <div class="producto" data-id="18" data-aos="flip-up" data-aos-delay="550">
+                <img src="imagenes/artesania.jpg" class="producto-imagen" alt="Artesanía">
                 <div class="info">
-                    <h4>Artesania</h4>
-                    <p>Lo mejor para tu hogar.</p>
+                    <h4>Artesanía</h4>
+                    <p>Para decorar tu hogar.</p>
                     <p>Precio: $4500</p>
                     <button class="carrito">Agregar al carrito</button>
                 </div>
             </div>
-
-      
         </div>
-        </div>
-    </section>
-        
 
-    <section id="productos">
-        <h3>CUIDADO PERSONAL</h3>
-
+        <h3 data-aos="fade-right">CUIDADO PERSONAL</h3>
         <div id="productos-cuidado-personal">
-        <div class="carrusel-item">	
-            <div class="producto" data-id="1">
-                <img src="imagenes/crema.jpg" class="producto-imagen" alt="imagen">
+            <div class="producto" data-id="19" data-aos="flip-up" data-aos-delay="100">
+                <img src="imagenes/crema.jpg" class="producto-imagen" alt="Crema">
                 <div class="info">
                     <h4>Crema</h4>
                     <p>Disfruta de las mejores mascarillas en nuestro local.</p>
@@ -236,8 +236,9 @@
                     <button class="carrito">Agregar al carrito</button>
                 </div>
             </div>
-            <div class="producto" data-id="2">
-                <img src="imagenes/aceitenatural.jpg" class="producto-imagen" alt="imagen">
+
+            <div class="producto" data-id="20" data-aos="flip-up" data-aos-delay="150">
+                <img src="imagenes/aceitenatural.jpg" class="producto-imagen" alt="Aceite">
                 <div class="info">
                     <h4>Aceite</h4>
                     <p>Disfruta de los mejores aceites en nuestro local.</p>
@@ -245,35 +246,39 @@
                     <button class="carrito">Agregar al carrito</button>
                 </div>
             </div>
-            <div class="producto" data-id="3">
-                <img src="imagenes/shampoo.jpg" class="producto-imagen" alt="imagen">
+
+            <div class="producto" data-id="21" data-aos="flip-up" data-aos-delay="200">
+                <img src="imagenes/shampoo.jpg" class="producto-imagen" alt="Shampoo">
                 <div class="info">
                     <h4>Shampoo</h4>
-                    <p>Disfruta de los mejores shampoo en nuestro local.</p>
+                    <p>Disfruta de los mejores shampoos en nuestro local.</p>
                     <p>Precio: $2000</p>
                     <button class="carrito">Agregar al carrito</button>
                 </div>
             </div>
-            <div class="producto" data-id="4">
-                <img src="imagenes/acondicionadorsolido.jpg" class="producto-imagen" alt="imagen">
+
+            <div class="producto" data-id="22" data-aos="flip-up" data-aos-delay="250">
+                <img src="imagenes/acondicionadorsolido.jpg" class="producto-imagen" alt="Acondicionador Sólido">
                 <div class="info">
-                    <h4>Acondicionador Solido</h4>
-                    <p>Disfruta de los mejores acondicionadores solidos en nuestro local.</p>
+                    <h4>Acondicionador Sólido</h4>
+                    <p>Disfruta de los mejores acondicionadores sólidos en nuestro local.</p>
                     <p>Precio: $3000</p>
                     <button class="carrito">Agregar al carrito</button>
                 </div>
             </div>
-            <div class="producto" data-id="5">  
-                <img src="imagenes/desodorante.jpg" class="producto-imagen" alt="imagen">
+
+            <div class="producto" data-id="23" data-aos="flip-up" data-aos-delay="300">
+                <img src="imagenes/desodorante.jpg" class="producto-imagen" alt="Desodorante">
                 <div class="info">
                     <h4>Desodorante</h4>
                     <p>Disfruta de los mejores desodorantes en nuestro local.</p>
                     <p>Precio: $4000</p>
                     <button class="carrito">Agregar al carrito</button>
                 </div>
-            </div>  
-            <div class="producto" data-id="6">
-                <img src="imagenes/cremacorporal.jpg" class="producto-imagen" alt="imagen">
+            </div>
+
+            <div class="producto" data-id="24" data-aos="flip-up" data-aos-delay="350">
+                <img src="imagenes/cremacorporal.jpg" class="producto-imagen" alt="Crema Corporal">
                 <div class="info">
                     <h4>Crema Corporal</h4>
                     <p>Disfruta de las mejores cremas corporales en nuestro local.</p>
@@ -281,30 +286,77 @@
                     <button class="carrito">Agregar al carrito</button>
                 </div>
             </div>
-
-
-
-       
-        </div>
         </div>
     </section>
-    <footer>
-        <p>&copy;2025 La Posta Campesina - Todos los derechos reservados</p>  
-    </footer>
 
-    <!-- Botón scroll to top (antes de los scripts) -->
-    <button id="scrollTopBtn" class="scroll-top-btn" title="Ir arriba">
-        <i class="fas fa-arrow-up"></i>
-    </button>
+    <!-- Botón flotante de WhatsApp (si lo quieres mantener) -->
+    <a href="https://wa.me/2615124480" target="_blank" class="whatsapp-float" title="Contáctanos por WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section" data-aos="fade-up" data-aos-delay="100">
+                    <h4>La Posta Campesina</h4>
+                    <p>Productos artesanales 100% naturales del secano lavallino.</p>
+                    
+                </div>
+                
+               <div class="footer-section" data-aos="fade-up" data-aos-delay="200">
+                    <h4>Contacto</h4>
+                    <p>Te esperamos en nuentro local en:</p>
+                    <p>📍 San Martín 206, Villa Tulumaya</p>
+                    <p>📧 postacampesina@gmail.com</p>
+                    
+                </div>
+                
+                <div class="footer-section" data-aos="fade-up" data-aos-delay="300">
+                    <h4>Desarrollador</h4>
+                    <p>
+                        Tenes un negocio y queres una página web como esta? contactame:
+                    </p>
+                     <div class="footer-social">
+                        <a href="https://github.com/AbelEmir11" target="_blank">
+                            <i class="fab fa-github"></i>
+                            GitHub
+                        </a>
+                        <a href="https://www.linkedin.com/in/abel-emir-alvarado-513958283?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank">
+                            <i class="fab fa-linkedin"></i>
+                            LinkedIn
+                        </a>
+                        <a href="https://portfolio-abel-tau.vercel.app/" target="_blank">
+                            <i class="fas fa-globe"></i>
+                            Portfolio
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 La Posta Campesina - Todos los derechos reservados</p>
+                <p>Diseñado y desarrollado por <strong>Abel Alvarado</strong></p>
+            </div>
+        </div>
+    </footer>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    <script>
-        AOS.init();
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="script.js"></script>
+
+    <script>
+        // Inicializar AOS
+        AOS.init({
+            duration: 600,
+            easing: 'ease-out-cubic',
+            once: true,
+            offset: 50
+        });
+    </script>
+
 </body>
 </html>

@@ -117,4 +117,31 @@ function calcularTotal() {
     }
 
 window.actualizarCarrito = actualizarCarrito; 
+// Efecto de ondas en el botón flotante de WhatsApp
+        const whatsappBtn = document.querySelector('.whatsapp-float');
+        if (whatsappBtn) {
+            whatsappBtn.addEventListener('click', function(e) {
+                // Crear efecto de ondas
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.height, rect.width);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.classList.add('ripple');
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        }
+
+// No modificar la lógica de carrito, solo agregar ayuda en consola
+console.log("💡 Para ver el historial de compras realizadas, usa verCompras() en la consola.");
+
 
