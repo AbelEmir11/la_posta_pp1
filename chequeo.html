@@ -1,118 +1,131 @@
-
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Finalizar Compra</title>
-
-   
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 </head>
+
 <body>
-<header>
+    <header>
         <h1>LA POSTA CAMPESINA</h1>
         <div class="menu">
-            <label for="bazar">
-            </label>
+            <label for="bazar"></label>
             <nav class="navbar navbar-expand-lg">
-              <div class="container">
-                  <ul class="navbar-nav mx-auto">
-                      <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
-                      <li class="nav-item"><a class="nav-link" href="nosotros.html">Nosotras</a></li>
-                      <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
-                      <li class="nav-item"><a class="nav-link" href="carrito.html">🛒 Ver carrito</a></li>
-                      <li class="nav-item"><a class="nav-link" href="productos.html">Productos</a></li>
-                  </ul>
-              </div>
+                <div class="container">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link" href="nosotros.html">Nosotras</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+                        <li class="nav-item"><a class="nav-link" href="carrito.html">🛒 Ver carrito</a></li>
+                        <li class="nav-item"><a class="nav-link" href="productos.html">Productos</a></li>
+                    </ul>
+                </div>
             </nav>
         </div>
     </header>
-    <h1>Finalizar Compra</h1>
 
-    <form class="container mt-4" id="formulario-compra">
-        <h2 class="mb-3 text-center">Detalles de Envío</h2>
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Columna izquierda: Formulario -->
+            <div class="col-md-7">
+                <h2 class="mb-4">Finalizar Compra</h2>
 
-        <div class="mb-3 input-group">
-            <span class="input-group-text"><i class="fas fa-user"></i></span>
-            <input type="text" class="form-control" id="nombre" placeholder="Nombre y Apellido">
+                <form id="formulario-compra">
+                    <h4 class="mb-3">Detalles de Envío</h4>
+
+                    <div class="mb-3 input-group">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        <input type="text" class="form-control" id="nombre" placeholder="Nombre y Apellido" required>
+                    </div>
+
+                    <div class="mb-3 input-group">
+                        <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                        <input type="text" class="form-control" id="direccion" placeholder="Dirección de Envío"
+                            required>
+                    </div>
+
+                    <div class="mb-3 input-group">
+                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        <input type="email" class="form-control" id="email" placeholder="Correo Electrónico" required>
+                    </div>
+
+                    <div class="mb-3 input-group">
+                        <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                        <input type="tel" class="form-control" id="telefono" placeholder="Número de Teléfono" required>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <h4 class="mb-3">Información de Pago</h4>
+
+                    <div class="alert alert-success">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <strong>Alias de Mercado Pago:</strong> <code class="fs-5">LA.POSTA.CAMPESINA</code>
+                        <p class="mb-0 mt-2 small">Realiza tu transferencia a este alias y sube el comprobante abajo</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="comprobante" class="form-label">
+                            <i class="fas fa-file-upload"></i> Comprobante de Pago *
+                        </label>
+                        <input type="file" class="form-control" id="comprobante" accept="image/*,.pdf" required>
+                        <small class="text-muted">Sube una captura o PDF del comprobante de Mercado Pago</small>
+                    </div>
+
+                    <button type="submit" class="btn btn-success btn-lg w-100">
+                        <i class="fas fa-check-circle"></i> Confirmar Pedido
+                    </button>
+                </form>
+            </div>
+
+            <!-- Columna derecha: Resumen del carrito -->
+            <div class="col-md-5">
+                <div id="resumen-carrito" class="sticky-top" style="top: 20px;">
+                    <!-- El resumen se carga dinámicamente con JavaScript -->
+                </div>
+            </div>
         </div>
+    </div>
 
-        <div class="mb-3 input-group">
-            <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
-            <input type="text" class="form-control" id="direccion" placeholder="Dirección de Envío">
-        </div>
-
-        <div class="mb-3">
-            <label for="metodo_pago" class="form-label">Método de Pago</label>
-            <select class="form-select" id="metodo_pago" required>
-                <option value="">Seleccione un método de pago</option>
-                <option value="tarjeta">Tarjeta de Crédito</option>
-                <option value="debito">Tarjeta de Débito</option>
-                <option value="efectivo">Efectivo</option>
-            </select>
-        </div>
-        <div id="contenedor-pago" class="mb-3"></div>
--
-        <div class="mb-3 input-group">
-            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-            <input type="email" class="form-control" id="email" placeholder="Correo Electrónico">
-        </div>
-
-        <div class="mb-3 input-group">
-            <span class="input-group-text"><i class="fas fa-phone"></i></span>
-            <input type="tel" class="form-control" id="telefono" placeholder="Número de Teléfono">
-        </div>
-
-        <button type="submit" class="btn btn-success">Finalizar Compra</button>
-    </form>
-    
     <footer>
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section" data-aos="fade-up" data-aos-delay="100">
                     <h4>La Posta Campesina</h4>
                     <p>Productos artesanales 100% naturales del secano lavallino.</p>
-                    
                 </div>
-                
-             <div class="footer-section" data-aos="fade-up" data-aos-delay="200">
+
+                <div class="footer-section" data-aos="fade-up" data-aos-delay="200">
                     <h4>Contacto</h4>
-                    <p>Te esperamos en nuentro local en:</p>
+                    <p>Te esperamos en nuestro local en:</p>
                     <p>📍 San Martín 206, Villa Tulumaya</p>
                     <p>📧 postacampesina@gmail.com</p>
-                    
                 </div>
-                
+
                 <div class="footer-section" data-aos="fade-up" data-aos-delay="300">
                     <h4>Desarrollador</h4>
-                     <p>
-                        Tenes un negocio y queres una página web como esta? contactame:
-                    </p>
+                    <p>Tenes un negocio y queres una página web como esta? contactame:</p>
                     <div class="footer-social">
                         <a href="https://github.com/AbelEmir11" target="_blank">
-                            <i class="fab fa-github"></i>
-                            GitHub
+                            <i class="fab fa-github"></i> GitHub
                         </a>
-                        <a href="https://www.linkedin.com/in/abel-emir-alvarado-513958283?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank">
-                            <i class="fab fa-linkedin"></i>
-                            LinkedIn
+                        <a href="https://www.linkedin.com/in/abel-emir-alvarado-513958283?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
+                            target="_blank">
+                            <i class="fab fa-linkedin"></i> LinkedIn
                         </a>
                         <a href="https://portfolio-abel-tau.vercel.app/" target="_blank">
-                            <i class="fas fa-globe"></i>
-                            Portfolio
+                            <i class="fas fa-globe"></i> Portfolio
                         </a>
                     </div>
                 </div>
             </div>
-            
+
             <div class="footer-bottom">
                 <p>&copy; 2025 La Posta Campesina - Todos los derechos reservados</p>
                 <p>Diseñado y desarrollado por <strong>Abel Alvarado</strong></p>
@@ -120,8 +133,183 @@
         </div>
     </footer>
 
-<script src="chequeo.js">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
 
-</script>
+    <!-- Auth JS -->
+    <script src="auth.js"></script>
+    <!-- <script src="chequeo.js"></script> -->
+
+    <script>
+        // API_URL ya está definido en auth.js
+
+        // Proteger página - requiere autenticación
+        if (!requireAuth('login.html')) {
+            // Si no está autenticado, requireAuth redirige automáticamente
+        }
+
+        // Pre-llenar datos del usuario
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = getUserFromStorage();
+            if (user) {
+                document.getElementById('nombre').value = user.nombre || '';
+                document.getElementById('email').value = user.email || '';
+                document.getElementById('telefono').value = user.telefono || '';
+                document.getElementById('direccion').value = user.direccion || '';
+            }
+
+            // Cargar resumen del carrito
+            cargarResumenCarrito();
+        });
+
+        // Cargar resumen del carrito
+        function cargarResumenCarrito() {
+            const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+            const resumenDiv = document.getElementById('resumen-carrito');
+
+            if (carrito.length === 0) {
+                resumenDiv.innerHTML = `
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
+                            <p>Tu carrito está vacío</p>
+                            <a href="productos.html" class="btn btn-primary">Ir a productos</a>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            let total = 0;
+            let html = '<div class="card"><div class="card-body">';
+            html += '<h4 class="mb-3">Resumen del Pedido</h4>';
+
+            carrito.forEach(item => {
+                const subtotal = item.precio * item.cantidad;
+                total += subtotal;
+                html += `
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>${item.nombre} x${item.cantidad}</span>
+                        <strong>$${subtotal.toFixed(2)}</strong>
+                    </div>
+                `;
+            });
+
+            html += '<hr>';
+            html += `
+                <div class="d-flex justify-content-between">
+                    <h5>Total:</h5>
+                    <h5 class="text-success">$${total.toFixed(2)}</h5>
+                </div>
+            `;
+            html += '</div></div>';
+
+            resumenDiv.innerHTML = html;
+        }
+
+        // Manejar envío del formulario
+        document.getElementById('formulario-compra').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+            if (carrito.length === 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Carrito vacío',
+                    text: 'No hay productos en el carrito'
+                });
+                return;
+            }
+
+            // Obtener archivo de comprobante
+            const comprobanteInput = document.getElementById('comprobante');
+            const comprobanteFile = comprobanteInput.files[0];
+
+            if (!comprobanteFile) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Comprobante requerido',
+                    text: 'Por favor sube el comprobante de pago'
+                });
+                return;
+            }
+
+            // Solo guardar el nombre del archivo y confirmación
+            const comprobanteInfo = `Archivo subido: ${comprobanteFile.name} (${(comprobanteFile.size / 1024).toFixed(2)} KB)`;
+
+            // Preparar datos del pedido
+            const orderData = {
+                items: carrito.map(item => ({
+                    product_id: item.id,
+                    nombre_producto: item.nombre,
+                    precio: item.precio,
+                    cantidad: item.cantidad
+                })),
+                nombre_cliente: document.getElementById('nombre').value,
+                email_cliente: document.getElementById('email').value,
+                telefono_cliente: document.getElementById('telefono').value,
+                direccion_cliente: document.getElementById('direccion').value,
+                comprobante: comprobanteInfo,
+                comprobante_nombre: comprobanteFile.name
+            };
+
+            try {
+                // Mostrar loading
+                Swal.fire({
+                    title: 'Procesando pedido...',
+                    text: 'Por favor espera',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                // Crear pedido en el backend
+                const response = await authenticatedFetch(`${API_URL}/orders`, {
+                    method: 'POST',
+                    body: JSON.stringify(orderData)
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.message || 'Error al crear el pedido');
+                }
+
+                const result = await response.json();
+
+                // Limpiar carrito
+                localStorage.removeItem('carrito');
+
+                // Mostrar éxito
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Pedido cargado con éxito!',
+                    html: `
+                        <p><strong>Tu pedido #${result.orderId} ha sido registrado</strong></p>
+                        <p>Hemos recibido tu comprobante de pago.</p>
+                        <p>Muy pronto nos estaremos comunicando contigo para planificar la entrega.</p>
+                        <p class="text-muted small mt-3">¡Gracias por tu compra!</p>
+                    `,
+                    confirmButtonText: 'Ver mis pedidos',
+                    confirmButtonColor: '#4a7c4a',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: true
+                }).then(() => {
+                    window.location.href = 'perfil.html';
+                });
+
+            } catch (error) {
+                console.error('Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error.message || 'No se pudo procesar el pedido'
+                });
+            }
+        });
+    </script>
 </body>
+
 </html>

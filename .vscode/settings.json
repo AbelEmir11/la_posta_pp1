@@ -1,0 +1,9 @@
+{
+    "liveServer.settings.ignoreFiles": [
+        "**/data/**",
+        "**/*.db",
+        "**/*.sqlite",
+        "**/.vscode/**",
+        "**/backend/**"
+    ]
+}

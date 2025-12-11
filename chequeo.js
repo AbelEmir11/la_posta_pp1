@@ -1,137 +1,322 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const formularioCompra = document.getElementById("formulario-compra");
-    console.log("Formulario obtenido:", formularioCompra); 
+// ============================================
+// CHEQUEO.JS - LA POSTA CAMPESINA
+// Integración con Mercado Pago Checkout Pro
+// ARCHIVO COMPLETO - REEMPLAZAR TODO EL CONTENIDO
+// ============================================
 
-    if (!formularioCompra) {
-        console.error("⚠️ Error: No se encontró el formulario en el DOM. Verifica el ID en el HTML.");
+console.log('✅ chequeo.js cargado');
+
+// API_URL ya está definido en auth.js
+
+// ============================================
+// INICIALIZACIÓN AL CARGAR LA PÁGINA
+// ============================================
+document.addEventListener('DOMContentLoaded', function () {
+    console.log('DOM cargado - Inicializando checkout');
+
+    const formulario = document.getElementById('formulario-compra');
+
+    if (!formulario) {
+        console.error('❌ No se encontró el formulario de compra');
         return;
     }
-    
-    formularioCompra.addEventListener("submit", async function (event) {
-        event.preventDefault(); // Evita que la página se recargue al enviar el formulario
 
-        // Capturar los valores del formulario
-        const nombre = document.getElementById("nombre").value.trim();
-        const direccion = document.getElementById("direccion").value.trim();
-        const metodo_pago = document.getElementById("metodo_pago").value;
-        const email = document.getElementById("email").value.trim();
-        const telefono = document.getElementById("telefono").value.trim();
+    // Mostrar resumen del carrito
+    mostrarResumenCarrito();
 
-        // Obtener los productos del carrito desde localStorage
-        const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    // Probar conexión con el backend
+    testBackendConnection();
 
-        // Validación simple
-        if (!nombre || !direccion || !email || !telefono || carrito.length === 0) {
+    // Manejar envío del formulario
+    formulario.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        console.log('📝 Formulario enviado');
+
+        // Obtener datos del formulario
+        const nombre = document.getElementById('nombre').value.trim();
+        const direccion = document.getElementById('direccion').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const telefono = document.getElementById('telefono').value.trim();
+
+        // Validar campos vacíos
+        if (!nombre || !direccion || !email || !telefono) {
             Swal.fire({
-                title: "uupss",
-                text: "Por favor, completa todos los campos y agrega productos al carrito.",
-                icon: "warning",
-                confirmButtonText: "Aceptar"
+                icon: 'error',
+                title: 'Campos incompletos',
+                text: 'Por favor completa todos los campos',
+                confirmButtonColor: '#4a7c4a'
             });
-
-
             return;
         }
 
-        // Crear objeto con la información del pedido
-        const pedido = {
-            nombre,
-            direccion,
-            metodo_pago,
-            email,
-            telefono,
-            productos: carrito
-        };
+        // Validar formato de email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Email inválido',
+                text: 'Por favor ingresa un email válido',
+                confirmButtonColor: '#4a7c4a'
+            });
+            return;
+        }
+
+        // Obtener carrito del localStorage
+        const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+        console.log('🛒 Carrito actual:', carrito);
+
+        if (carrito.length === 0) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Carrito vacío',
+                text: 'No hay productos en el carrito',
+                confirmButtonColor: '#4a7c4a'
+            });
+            return;
+        }
+
+        // Mostrar loading
+        Swal.fire({
+            title: 'Procesando...',
+            text: 'Preparando tu compra con Mercado Pago',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
 
         try {
-            // Guardar el pedido en localStorage
-            const pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
-            pedido.fecha = new Date().toLocaleString('es-AR', {
-                dateStyle: 'short',
-                timeStyle: 'short'
+            console.log('📤 Enviando datos al backend...');
+
+            // Crear preferencia de pago en Mercado Pago
+            const response = await fetch(`${API_URL}/create-preference`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    items: carrito,
+                    payer: {
+                        nombre: nombre,
+                        email: email,
+                        telefono: telefono,
+                        direccion: direccion
+                    }
+                })
             });
-            pedido.id = Date.now();
+
+            console.log('📥 Respuesta recibida:', response.status);
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error('❌ Error del servidor:', errorData);
+                throw new Error(errorData.error || 'Error al crear la preferencia de pago');
+            }
+
+            const data = await response.json();
+
+            console.log('✅ Preferencia creada exitosamente:', data);
+
+            // Guardar datos del pedido antes de redirigir
+            const pedido = {
+                id: Date.now(),
+                fecha: new Date().toLocaleString('es-AR', {
+                    dateStyle: 'medium',
+                    timeStyle: 'short'
+                }),
+                nombre: nombre,
+                direccion: direccion,
+                email: email,
+                telefono: telefono,
+                productos: carrito,
+                total: carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0),
+                preference_id: data.id,
+                estado: 'pendiente'
+            };
+
+            // Guardar en localStorage
+            let pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
             pedidos.push(pedido);
             localStorage.setItem('pedidos', JSON.stringify(pedidos));
 
-            // Mostrar en consola el pedido realizado
-            console.log("===");
-            console.log("🛒 COMPRA REALIZADA");
-            console.log("===");
-            console.log(`Fecha: ${pedido.fecha}`);
-            console.log(`Nombre: ${pedido.nombre}`);
-            console.log(`Dirección: ${pedido.direccion}`);
-            console.log(`Email: ${pedido.email}`);
-            console.log(`Teléfono: ${pedido.telefono}`);
-            console.log(`Método de pago: ${pedido.metodo_pago}`);
-            console.log("Productos comprados:");
-            pedido.productos.forEach((prod, i) => {
-                console.log(`  ${i + 1}. ${prod.nombre} - Cantidad: ${prod.cantidad} - Precio: $${prod.precio}`);
-            });
-            console.log("---");
-            console.log("💡 Para ver el historial de compras, usa verCompras() en la consola.");
+            console.log('💾 Pedido guardado:', pedido);
 
-            Swal.fire({
-                title: "¡Pedido realizado con éxito!",
-                text: "Gracias por tu compra. En breve nos comunicaremos contigo para coordinar la entrega.",
-                icon: "success",
-                confirmButtonText: "Aceptar"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    localStorage.removeItem("carrito"); // Vaciar el carrito después de la compra
-                    window.location.href = "productos.html"; // Redirigir a la página de productos
-                }
-            });
+            // Cerrar loading
+            Swal.close();
+
+            // Pequeño delay para mejor UX
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            console.log('🔄 Redirigiendo a Mercado Pago...');
+            console.log('🔗 URL:', data.sandbox_init_point);
+
+            // Redirigir a Mercado Pago
+            // En modo prueba usa sandbox_init_point
+            // En producción usa init_point
+            window.location.href = data.sandbox_init_point;
+
         } catch (error) {
-            console.error("Error al procesar el pedido:", error);
+            console.error('❌ Error completo:', error);
             Swal.fire({
-                title: "¡Error!",
-                text: "Ocurrió un error al procesar el pedido. Por favor, intenta nuevamente.",
-                icon: "error",
-                confirmButtonText: "Aceptar"
+                icon: 'error',
+                title: 'Error al procesar',
+                html: `
+                    <p>Hubo un problema al procesar tu compra.</p>
+                    <p><small>${error.message}</small></p>
+                    <p>Por favor intenta de nuevo o contacta con soporte.</p>
+                `,
+                confirmButtonColor: '#4a7c4a'
             });
         }
     });
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    const metodoPagoSelect = document.getElementById('metodo_pago');
-    const contenedorPago = document.getElementById('contenedor-pago');
+// ============================================
+// MOSTRAR RESUMEN DEL CARRITO
+// ============================================
+function mostrarResumenCarrito() {
+    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    const contenedor = document.getElementById('resumen-carrito');
 
-    metodoPagoSelect.addEventListener('change', () => {
-        const metodoSeleccionado = metodoPagoSelect.value;
-        contenedorPago.innerHTML = ''; // Limpiar contenido previo
-        contenedorPago.style.display = 'none'; // Ocultar contenedor por defecto
+    if (!contenedor) {
+        console.warn('⚠️ No se encontró el contenedor del resumen');
+        return;
+    }
 
-        if (metodoSeleccionado === 'tarjeta' || metodoSeleccionado === 'debito') {
-            contenedorPago.style.display = 'block';
-            contenedorPago.innerHTML = `
-                <h3>Detalles de la Tarjeta</h3>
-                <div class="mb-3">
-                    <label for="numero_tarjeta" class="form-label">Número de la Tarjeta</label>
-                    <input type="text" class="form-control" id="numero_tarjeta" placeholder="XXXX XXXX XXXX XXXX" required>
+    if (carrito.length === 0) {
+        contenedor.innerHTML = `
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-shopping-cart" style="font-size: 48px; color: #ccc;"></i>
+                    <p class="mt-3">No hay productos en el carrito</p>
+                    <a href="productos.html" class="btn btn-primary">
+                        <i class="fas fa-shopping-bag"></i> Ver productos
+                    </a>
                 </div>
-                <div class="mb-3">
-                    <label for="nombre_tarjeta" class="form-label">titular de la tarjeta</label>
-                    <input type="text" class="form-control" id="nombre_tarjeta" placeholder="Como aparece en la tarjeta" required>
+            </div>
+        `;
+        return;
+    }
+
+    let total = 0;
+    let html = '<div class="card shadow-sm"><div class="card-body">';
+    html += '<h5 class="card-title mb-3"><i class="fas fa-shopping-cart"></i> Resumen de tu compra</h5>';
+    html += '<ul class="list-group list-group-flush mb-3">';
+
+    carrito.forEach(item => {
+        const subtotal = item.precio * item.cantidad;
+        total += subtotal;
+
+        html += `
+            <li class="list-group-item px-0">
+                <div class="d-flex align-items-center">
+                    <img src="${item.imagen}" alt="${item.nombre}" 
+                         class="img-thumbnail me-2" style="width: 60px; height: 60px; object-fit: cover;">
+                    <div class="flex-grow-1">
+                        <strong class="d-block">${item.nombre}</strong>
+                        <small class="text-muted">
+                            ${item.cantidad} x $${item.precio.toFixed(2)}
+                        </small>
+                    </div>
+                    <span class="badge bg-success rounded-pill" style="font-size: 14px;">
+                        $${subtotal.toFixed(2)}
+                    </span>
                 </div>
-                <div class="mb-3">
-                    <label for="fecha_vencimiento" class="form-label">Fecha de Vencimiento</label>
-                    <input type="text" class="form-control" id="fecha_vencimiento" placeholder="MM/AA" required>
-                </div>
-                <div class="mb-3">
-                    <label for="codigo_cvv" class="form-label">Código CVV</label>
-                    <input type="text" class="form-control" id="codigo_cvv" placeholder="XXX" required>
-                </div>
-                
-            `;
-        } else if (metodoSeleccionado === 'efectivo') {
-            contenedorPago.style.display = 'block';
-            contenedorPago.innerHTML = `
-                <h3>Pago en Efectivo</h3>
-                <p>Usted ha seleccionado pagar en efectivo. Por favor, prepare el monto exacto para el momento de la entrega.</p>
-               
-            `;
-        }
+            </li>
+        `;
     });
-});
+
+    html += '</ul>';
+
+    // Total
+    html += `
+        <div class="border-top pt-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Total:</h5>
+                <h4 class="mb-0 text-success">$${total.toFixed(2)}</h4>
+            </div>
+        </div>
+    `;
+
+    // Info de Mercado Pago
+    html += `
+        <div class="alert alert-info mt-3 mb-0">
+            <i class="fas fa-shield-alt"></i>
+            <small>
+                <strong>Pago seguro con Mercado Pago</strong><br>
+                Podrás pagar con tarjeta, efectivo o transferencia
+            </small>
+        </div>
+    `;
+
+    html += '</div></div>';
+
+    contenedor.innerHTML = html;
+
+    console.log('✅ Resumen del carrito mostrado:', {
+        productos: carrito.length,
+        total: total
+    });
+}
+
+// ============================================
+// PROBAR CONEXIÓN CON EL BACKEND
+// ============================================
+async function testBackendConnection() {
+    try {
+        const response = await fetch(`${API_URL}/health`);
+        const data = await response.json();
+        console.log('✅ Backend conectado:', data);
+        return true;
+    } catch (error) {
+        console.error('❌ Backend no disponible:', error);
+        console.error('⚠️ Asegúrate de que el servidor esté corriendo en:', API_URL);
+
+        // Mostrar alerta al usuario
+        Swal.fire({
+            icon: 'error',
+            title: 'Error de conexión',
+            html: `
+                <p>No se pudo conectar con el servidor de pagos.</p>
+                <p><small>Asegúrate de que el backend esté corriendo en el puerto 3001</small></p>
+            `,
+            confirmButtonColor: '#4a7c4a'
+        });
+
+        return false;
+    }
+}
+
+// ============================================
+// FUNCIONES AUXILIARES (DEBUGGING)
+// ============================================
+
+// Ver carrito en consola
+window.verCarrito = function () {
+    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    console.table(carrito);
+    return carrito;
+};
+
+// Ver pedidos en consola
+window.verPedidos = function () {
+    const pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
+    console.table(pedidos);
+    return pedidos;
+};
+
+// Limpiar carrito
+window.limpiarCarrito = function () {
+    localStorage.removeItem('carrito');
+    console.log('✅ Carrito limpiado');
+    mostrarResumenCarrito();
+};
+
+// Mensaje de ayuda en consola
+console.log('💡 Funciones disponibles en consola:');
+console.log('- verCarrito() - Ver productos en el carrito');
+console.log('- verPedidos() - Ver historial de pedidos');
+console.log('- limpiarCarrito() - Vaciar el carrito');

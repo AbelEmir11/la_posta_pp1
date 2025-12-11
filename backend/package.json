@@ -1,0 +1,26 @@
+{
+  "name": "la-posta-campesina-backend",
+  "version": "1.0.0",
+  "description": "Backend para La Posta Campesina con integración de Mercado Pago",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": ["mercadopago", "ecommerce", "express"],
+  "author": "Abel Alvarado",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "mercadopago": "^2.9.0",
+    "bcrypt": "^5.1.1",
+    "jsonwebtoken": "^9.0.2",
+    "better-sqlite3": "^9.2.2",
+    "express-validator": "^7.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

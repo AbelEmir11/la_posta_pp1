@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Test Alerta</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <h1>Test de Alerta</h1>
+    <button onclick="testAlert()">Click aquí para probar alerta</button>
+
+    <script>
+        function testAlert() {
+            console.log('Mostrando alerta...');
+            Swal.fire({
+                icon: 'success',
+                title: '¡Prueba!',
+                text: 'Esta alerta NO debería cerrarse automáticamente',
+                confirmButtonText: 'OK',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: true
+            }).then((result) => {
+                console.log('Usuario hizo clic en OK:', result.isConfirmed);
+            });
+        }
+    </script>
+</body>
+
+</html>

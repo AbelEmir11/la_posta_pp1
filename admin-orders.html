@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Pedidos - Admin</title>
+    <link rel="icon" href="imagenes/logo color.jpg" type="image/x-icon">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        .admin-sidebar {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 0;
+        }
+
+        .admin-sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 1rem 1.5rem;
+            margin: 0.25rem 0;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .admin-sidebar .nav-link:hover,
+        .admin-sidebar .nav-link.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .admin-content {
+            padding: 2rem;
+            background: var(--bg-light);
+            min-height: 100vh;
+        }
+
+        .order-card {
+            border-left: 4px solid var(--primary-color);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 px-0 admin-sidebar">
+                <div class="text-center mb-4">
+                    <img src="imagenes/logo color.jpg" alt="Logo" class="rounded-circle"
+                        style="width: 80px; height: 80px; object-fit: cover; border: 3px solid white;">
+                    <h5 class="mt-3">Panel Admin</h5>
+                    <p class="small" id="adminName">Administrador</p>
+                </div>
+
+                <nav class="nav flex-column px-3">
+                    <a class="nav-link" href="admin-dashboard.html">
+                        <i class="fas fa-chart-line me-2"></i> Dashboard
+                    </a>
+                    <a class="nav-link" href="admin-products.html">
+                        <i class="fas fa-box me-2"></i> Productos
+                    </a>
+                    <a class="nav-link active" href="admin-orders.html">
+                        <i class="fas fa-shopping-bag me-2"></i> Pedidos
+                    </a>
+                    <a class="nav-link" href="admin-customers.html">
+                        <i class="fas fa-users me-2"></i> Clientes
+                    </a>
+                    <a class="nav-link" href="admin-contacts.html">
+                        <i class="fas fa-envelope me-2"></i> Mensajes
+                    </a>
+
+                    <hr class="my-3" style="border-color: rgba(255,255,255,0.3);">
+
+                    <a class="nav-link" href="index.html">
+                        <i class="fas fa-home me-2"></i> Ir al sitio
+                    </a>
+                    <a class="nav-link" href="#" onclick="logout(); return false;">
+                        <i class="fas fa-sign-out-alt me-2"></i> Cerrar sesión
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 admin-content">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2><i class="fas fa-shopping-bag text-primary"></i> Gestión de Pedidos</h2>
+                    <div>
+                        <select class="form-select" id="filterStatus" onchange="loadOrders()">
+                            <option value="">Todos los estados</option>
+                            <option value="pendiente">Pendientes</option>
+                            <option value="despachado">Despachados</option>
+                            <option value="entregado">Entregados</option>
+                            <option value="cancelado">Cancelados</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Lista de pedidos -->
+                <div id="ordersContainer">
+                    <div class="text-center py-5">
+                        <i class="fas fa-spinner fa-spin fa-3x text-primary"></i>
+                        <p class="mt-3">Cargando pedidos...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Detalle de Pedido -->
+    <div class="modal fade" id="orderDetailModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detalle del Pedido #<span id="orderIdDetail"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="orderDetailBody">
+                    <!-- Se llenará dinámicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="auth.js"></script>
+
+    <script>
+        // API_URL ya está definido en auth.js
+        // API_URL ya está definido en auth.js
+        let orderDetailModal;
+        let currentOrders = []; // Variable global para almacenar órdenes
+
+        // Proteger página
+        if (!requireAdmin()) { }
+
+        // Cargar nombre del admin
+        const user = getUserFromStorage();
+        if (user) {
+            document.getElementById('adminName').textContent = user.nombre;
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', () => {
+            orderDetailModal = new bootstrap.Modal(document.getElementById('orderDetailModal'));
+            loadOrders();
+        });
+
+        // Cargar pedidos
+        async function loadOrders() {
+            try {
+                const response = await authenticatedFetch(`${API_URL}/admin/orders`);
+                let orders = await response.json();
+                currentOrders = orders; // Guardar en global
+
+                // Filtrar por estado si está seleccionado
+                const filterStatus = document.getElementById('filterStatus').value;
+                if (filterStatus) {
+                    orders = orders.filter(order => order.estado === filterStatus);
+                }
+
+                const container = document.getElementById('ordersContainer');
+
+                if (orders.length === 0) {
+                    container.innerHTML = `
+                        <div class="text-center py-5">
+                            <i class="fas fa-shopping-bag fa-3x text-muted"></i>
+                            <p class="mt-3 text-muted">No hay pedidos</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = orders.map(order => `
+                    <div class="card order-card mb-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h5>Pedido #${order.id}</h5>
+                                    <p class="mb-1">
+                                        <i class="fas fa-user text-primary"></i>
+                                        <strong>${order.nombre_cliente}</strong>
+                                    </p>
+                                    <p class="mb-1">
+                                        <i class="fas fa-envelope text-primary"></i>
+                                        ${order.email_cliente}
+                                    </p>
+                                    <p class="mb-1">
+                                        <i class="fas fa-phone text-primary"></i>
+                                        ${order.telefono_cliente}
+                                    </p>
+                                    <p class="mb-1">
+                                        <i class="fas fa-map-marker-alt text-primary"></i>
+                                        ${order.direccion_cliente}
+                                    </p>
+                                    <p class="mb-0 text-muted">
+                                        <i class="fas fa-calendar"></i>
+                                        ${new Date(order.created_at).toLocaleString('es-AR')}
+                                    </p>
+                                </div>
+                                <div class="col-md-4 text-end">
+                                    <h3 class="text-primary mb-3">$${order.total.toFixed(2)}</h3>
+                                    <div class="mb-3">
+                                        <select class="form-select" data-order-id="${order.id}" data-current-status="${order.estado}" onchange="handleStatusChange(this)">
+                                            <option value="pendiente" ${order.estado === 'pendiente' ? 'selected' : ''}>Pendiente</option>
+                                            <option value="despachado" ${order.estado === 'despachado' ? 'selected' : ''}>Despachado</option>
+                                            <option value="entregado" ${order.estado === 'entregado' ? 'selected' : ''}>Entregado</option>
+                                            <option value="cancelado" ${order.estado === 'cancelado' ? 'selected' : ''}>Cancelado</option>
+                                        </select>
+                                    </div>
+                                    <button class="btn btn-outline-primary w-100" onclick="showOrderDetail(${order.id})">
+                                        <i class="fas fa-eye"></i> Ver Detalle
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('ordersContainer').innerHTML = `
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Error al cargar pedidos
+                    </div>
+                `;
+            }
+        }
+
+        // Manejar cambio de estado (previene cambio visual hasta confirmar)
+        function handleStatusChange(selectElement) {
+            const orderId = selectElement.dataset.orderId;
+            const newStatus = selectElement.value;
+            const oldStatus = selectElement.dataset.currentStatus;
+
+            // Llamar a la función de actualización
+            updateOrderStatus(orderId, newStatus, selectElement, oldStatus);
+        }
+
+        // Actualizar estado del pedido
+        async function updateOrderStatus(orderId, newStatus, selectElement, oldStatus) {
+            try {
+                const response = await authenticatedFetch(`${API_URL}/admin/orders/${orderId}/status`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ estado: newStatus })
+                });
+
+                if (response.ok) {
+                    // Mostrar alerta y SOLO recargar cuando el usuario haga clic en OK
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Actualizado!',
+                        text: 'El estado del pedido ha sido actualizado correctamente',
+                        confirmButtonText: 'OK',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        showConfirmButton: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Actualizar el data-current-status
+                            if (selectElement) {
+                                selectElement.dataset.currentStatus = newStatus;
+                            }
+                            loadOrders();
+                        }
+                    });
+                } else {
+                    throw new Error('Error al actualizar');
+                }
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'No se pudo actualizar el estado',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    // Restaurar valor anterior si hay error
+                    if (selectElement && oldStatus) {
+                        selectElement.value = oldStatus;
+                    }
+                    loadOrders();
+                });
+            }
+        }
+
+        // Mostrar detalle del pedido
+        function showOrderDetail(orderId) {
+            const order = currentOrders.find(o => o.id === orderId);
+            if (!order) return;
+
+            document.getElementById('orderIdDetail').textContent = order.id;
+
+            const detailBody = document.getElementById('orderDetailBody');
+            detailBody.innerHTML = `
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <h6>Información del Cliente</h6>
+                        <p><strong>Nombre:</strong> ${order.nombre_cliente}</p>
+                        <p><strong>Email:</strong> ${order.email_cliente}</p>
+                        <p><strong>Teléfono:</strong> ${order.telefono_cliente}</p>
+                        <p><strong>Dirección:</strong> ${order.direccion_cliente}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Información del Pedido</h6>
+                        <p><strong>Fecha:</strong> ${new Date(order.created_at).toLocaleString('es-AR')}</p>
+                        <p><strong>Estado:</strong> <span class="badge ${getStatusBadgeClass(order.estado)}">${getStatusText(order.estado)}</span></p>
+                        <p><strong>Total:</strong> <span class="text-primary fs-4">$${order.total.toFixed(2)}</span></p>
+                        ${order.comprobante ? `<p><strong>Comprobante:</strong><br><span class="badge bg-success"><i class="fas fa-check-circle"></i> ${order.comprobante}</span></p>` : ''}
+                    </div>
+                </div>
+                <hr>
+                <h6>Productos</h6>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${order.items.map(item => `
+                            <tr>
+                                <td>${item.nombre_producto}</td>
+                                <td>$${item.precio.toFixed(2)}</td>
+                                <td>${item.cantidad}</td>
+                                <td><strong>$${item.subtotal.toFixed(2)}</strong></td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                            <td><strong class="text-primary">$${order.total.toFixed(2)}</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            `;
+
+            orderDetailModal.show();
+        }
+
+        // Obtener clase de badge según estado
+        function getStatusBadgeClass(estado) {
+            const classes = {
+                'pendiente': 'bg-warning text-dark',
+                'despachado': 'bg-info',
+                'entregado': 'bg-success',
+                'cancelado': 'bg-danger'
+            };
+            return classes[estado] || 'bg-secondary';
+        }
+
+        // Obtener texto del estado
+        function getStatusText(estado) {
+            const texts = {
+                'pendiente': 'Pendiente',
+                'despachado': 'Despachado',
+                'entregado': 'Entregado',
+                'cancelado': 'Cancelado'
+            };
+            return texts[estado] || estado;
+        }
+    </script>
+</body>
+
+</html>

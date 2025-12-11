@@ -1,20 +1,32 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM cargado');
-    
+
+    // Inicializar los event listeners del carrito
+    inicializarCarrito();
+});
+
+// Función para inicializar los event listeners del carrito
+function inicializarCarrito() {
+    console.log('Inicializando carrito...');
+
     // Seleccionar todos los botones de agregar al carrito
     const botonesAgregar = document.querySelectorAll('.carrito');
     console.log('Botones encontrados:', botonesAgregar.length);
-    
+
     // Agregar evento click a cada botón
     botonesAgregar.forEach(boton => {
-        boton.addEventListener('click', function(e) {
+        // Remover listeners anteriores si existen (clonando el nodo)
+        const nuevoBoton = boton.cloneNode(true);
+        boton.parentNode.replaceChild(nuevoBoton, boton);
+
+        nuevoBoton.addEventListener('click', function (e) {
             e.preventDefault();
             console.log('Botón clickeado');
-            
+
             // Obtener el contenedor del producto
             const productoDiv = this.closest('.producto');
             console.log('Contenedor del producto:', productoDiv);
-            
+
             if (!productoDiv) {
                 console.error('No se encontró el contenedor del producto');
                 return;
@@ -29,15 +41,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 cantidad: 1,
                 stock: parseInt(productoDiv.dataset.stock || '10')
             };
-            
+
             console.log('Datos del producto:', producto);
-            
+
             // Obtener carrito actual
             let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-            
+
             // Buscar si el producto ya existe
             const productoExistente = carrito.find(item => item.id === producto.id);
-            
+
             if (productoExistente) {
                 if (productoExistente.cantidad < producto.stock) {
                     productoExistente.cantidad++;
@@ -68,17 +80,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     timer: 1500
                 });
             }
-            
+
             // Guardar carrito actualizado
             localStorage.setItem('carrito', JSON.stringify(carrito));
             console.log('Carrito actualizado:', carrito);
         });
     });
-});
+}
+
 
 // Desplazamiento suave en el menú
 document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
+    anchor.addEventListener('click', function (e) {
         e.preventDefault();
         const targetId = this.getAttribute('href').substring(1);
         const targetElement = document.getElementById(targetId);
@@ -93,7 +106,7 @@ document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
 // Envío de formulario y cartel de éxito - SIN BACKEND
 document.addEventListener("DOMContentLoaded", function () {
     const formulario = document.getElementById("contactoForm");
-    
+
     if (formulario) {
         formulario.addEventListener("submit", function (event) {
             event.preventDefault(); // Evita que la página se recargue
@@ -224,11 +237,11 @@ function cargarProductos() {
         .then(response => response.json())
         .then(data => {
             console.log("Productos obtenidos:", data);
-       
-            const contenedorConservas = document.getElementById("productos-conservas"); 
+
+            const contenedorConservas = document.getElementById("productos-conservas");
             const contenedorBebidas = document.getElementById("productos-bebidas");
-            const contenedorArtesanias = document.getElementById("productos-artesanias"); 
-            const contenedorCuidadoPersonal = document.getElementById("productos-cuidado-personal"); 
+            const contenedorArtesanias = document.getElementById("productos-artesanias");
+            const contenedorCuidadoPersonal = document.getElementById("productos-cuidado-personal");
 
             // Limpiar antes de agregar nuevos productos
             contenedorConservas.innerHTML = "";
@@ -250,7 +263,7 @@ function cargarProductos() {
                     <p><strong>Stock:</strong> ${producto.stock}</p>
                     <p><strong>Categoría:</strong> ${producto.categoria_1}</p>
                     <button class="agregar-carrito">Agregar al carrito</button>
-                `; 
+                `;
                 // Insertar en el contenedor correspondiente según la categoría
                 if (producto.categoria_1.toLowerCase() === "conservas") {
                     contenedorConservas.appendChild(productoElement);
@@ -274,7 +287,7 @@ function cargarProductos() {
                     const productoPrecio = parseFloat(productoElement.getAttribute("data-precio"));
                     const productoStock = parseInt(productoElement.querySelector("p:nth-of-type(3) strong").nextSibling.nodeValue.trim());
 
-                    
+
                     const producto = {
                         id: productoId,
                         nombre: productoNombre,
@@ -294,34 +307,34 @@ function agregarAlCarrito(producto) {
     let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
     let productoExistente = carrito.find(item => item.id === producto.id);
-    
+
     if (productoExistente) {
         if (productoExistente.cantidad < producto.stock) {
             productoExistente.cantidad++;
-        
-    } else {
+
+        } else {
             Swal.fire({
                 title: "¡Stock insuficiente!",
-                text: "En caso de precisar más unidades, por favor, comuníquese con nosotros a traves de la sección de contacto", 
+                text: "En caso de precisar más unidades, por favor, comuníquese con nosotros a traves de la sección de contacto",
                 icon: "error",
                 confirmButtonText: "Aceptar"
             });
-        return; // ❌ No agregamos más si se supera el stock
-    }
-    
-}else {
+            return; // ❌ No agregamos más si se supera el stock
+        }
+
+    } else {
         carrito.push({
             id: producto.id,
             nombre: producto.nombre,
-            precio: parseFloat(producto.precio), 
+            precio: parseFloat(producto.precio),
             imagen: producto.imagen,
             cantidad: 1,
             stock: producto.stock
         });
     }
-    
+
     localStorage.setItem("carrito", JSON.stringify(carrito));
-    
+
     mostrarMensaje(`${producto.nombre} se agregó al carrito`);
 
     mostrarCarrito();
@@ -373,9 +386,9 @@ function eliminarDelCarrito(index) {
 document.getElementById("vaciar-carrito").addEventListener("click", () => {
     localStorage.removeItem("carrito");
     mostrarCarrito();
-});              
+});
 
-document.getElementById('contactForm').onsubmit = function(event) {
+document.getElementById('contactForm').onsubmit = function (event) {
     event.preventDefault();
     this.submit();
 };
@@ -385,10 +398,10 @@ document.getElementById('contactForm').onsubmit = function(event) {
 
 
 // Animaciones adicionales para la página nosotros.html
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Detectar si estamos en nosotros.html
     if (window.location.pathname.includes('nosotros.html')) {
-        
+
         // Animación de contador para elementos con números
         const observerOptions = {
             threshold: 0.1,
@@ -410,25 +423,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Efecto hover mejorado para las redes sociales
         document.querySelectorAll('.social-icon').forEach(icon => {
-            icon.addEventListener('mouseenter', function() {
+            icon.addEventListener('mouseenter', function () {
                 // Agregar un pequeño efecto de escala a la imagen
                 const img = this.querySelector('img');
                 if (img) {
                     img.style.transform = 'scale(1.1) rotate(5deg)';
                 }
-                
+
                 const fontIcon = this.querySelector('i');
                 if (fontIcon) {
                     fontIcon.style.transform = 'scale(1.2) rotate(-10deg)';
                 }
             });
 
-            icon.addEventListener('mouseleave', function() {
+            icon.addEventListener('mouseleave', function () {
                 const img = this.querySelector('img');
                 if (img) {
                     img.style.transform = 'scale(1) rotate(0deg)';
                 }
-                
+
                 const fontIcon = this.querySelector('i');
                 if (fontIcon) {
                     fontIcon.style.transform = 'scale(1) rotate(0deg)';
@@ -451,10 +464,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Efecto parallax suave para elementos de la página
-        window.addEventListener('scroll', function() {
+        window.addEventListener('scroll', function () {
             const scrolled = window.pageYOffset;
             const parallaxElements = document.querySelectorAll('.feature-card');
-            
+
             parallaxElements.forEach((element, index) => {
                 const speed = 0.1 + (index * 0.05);
                 const yPos = -(scrolled * speed);
@@ -467,7 +480,7 @@ document.addEventListener('DOMContentLoaded', function() {
         paragraphs.forEach((p, index) => {
             p.style.opacity = '0';
             p.style.transform = 'translateY(30px)';
-            
+
             setTimeout(() => {
                 p.style.transition = 'all 0.8s ease';
                 p.style.opacity = '1';
@@ -477,12 +490,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Efecto de brillo en las tarjetas al pasar el mouse
         document.querySelectorAll('.feature-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
+            card.addEventListener('mouseenter', function () {
                 this.style.background = 'linear-gradient(135deg, #ffffff, #f8faf8)';
                 this.style.boxShadow = '0 15px 35px rgba(0,0,0,0.2)';
             });
 
-            card.addEventListener('mouseleave', function() {
+            card.addEventListener('mouseleave', function () {
                 this.style.background = 'white';
                 this.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
             });
@@ -510,21 +523,21 @@ document.addEventListener('DOMContentLoaded', function() {
         // Efecto de ondas en el botón flotante de WhatsApp
         const whatsappBtn = document.querySelector('.whatsapp-float');
         if (whatsappBtn) {
-            whatsappBtn.addEventListener('click', function(e) {
+            whatsappBtn.addEventListener('click', function (e) {
                 // Crear efecto de ondas
                 const ripple = document.createElement('span');
                 const rect = this.getBoundingClientRect();
                 const size = Math.max(rect.height, rect.width);
                 const x = e.clientX - rect.left - size / 2;
                 const y = e.clientY - rect.top - size / 2;
-                
+
                 ripple.style.width = ripple.style.height = size + 'px';
                 ripple.style.left = x + 'px';
                 ripple.style.top = y + 'px';
                 ripple.classList.add('ripple');
-                
+
                 this.appendChild(ripple);
-                
+
                 setTimeout(() => {
                     ripple.remove();
                 }, 600);
@@ -556,11 +569,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     const img = entry.target;
                     img.style.opacity = '0';
                     img.style.transition = 'opacity 0.6s ease';
-                    
+
                     img.onload = () => {
                         img.style.opacity = '1';
                     };
-                    
+
                     observer.unobserve(img);
                 }
             });
@@ -635,13 +648,13 @@ document.head.appendChild(rippleStyle);
 
 
 // Mejoras adicionales para la página de productos
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Detectar si estamos en productos.html
     if (window.location.pathname.includes('productos.html')) {
-        
+
         // Animación de entrada para los productos
         const productos = document.querySelectorAll('.producto');
-        
+
         // Configurar intersection observer para animaciones
         const observerOptions = {
             threshold: 0.1,
@@ -671,10 +684,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // Efecto de carga mejorado para imágenes
         const imagenes = document.querySelectorAll('.producto-imagen');
         imagenes.forEach(img => {
-            img.addEventListener('load', function() {
+            img.addEventListener('load', function () {
                 this.style.opacity = '1';
             });
-            
+
             // Si la imagen ya está cargada
             if (img.complete) {
                 img.style.opacity = '1';
@@ -689,12 +702,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const conservas = document.querySelectorAll('#productos-conservas .producto').length;
             const artesanias = document.querySelectorAll('#productos-artesanias .producto').length;
             const cuidadoPersonal = document.querySelectorAll('#productos-cuidado-personal .producto').length;
-            
+
             // Actualizar títulos con contador (opcional)
             const tituloConservas = document.querySelector('#productos h3');
             const tituloArtesanias = document.querySelectorAll('#productos h3')[1];
             const tituloCuidado = document.querySelectorAll('#productos h3')[2];
-            
+
             if (tituloConservas) {
                 tituloConservas.setAttribute('data-count', `(${conservas} productos)`);
             }
@@ -726,28 +739,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Mejorar la experiencia del carrito con feedback visual
         document.querySelectorAll('.carrito').forEach(boton => {
-            boton.addEventListener('click', function(e) {
+            boton.addEventListener('click', function (e) {
                 e.preventDefault();
-                
+
                 // Efecto de ondas en el botón
                 const rect = this.getBoundingClientRect();
                 const ripple = document.createElement('span');
                 const size = Math.max(rect.height, rect.width);
                 const x = e.clientX - rect.left - size / 2;
                 const y = e.clientY - rect.top - size / 2;
-                
+
                 ripple.style.width = ripple.style.height = size + 'px';
                 ripple.style.left = x + 'px';
                 ripple.style.top = y + 'px';
                 ripple.classList.add('ripple-effect');
-                
+
                 this.appendChild(ripple);
-                
+
                 // Cambiar texto temporalmente
                 const textoOriginal = this.textContent;
                 this.innerHTML = '<i class="fas fa-check"></i> ¡Agregado!';
                 this.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
-                
+
                 setTimeout(() => {
                     this.textContent = textoOriginal;
                     this.style.background = '';

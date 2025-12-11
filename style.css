@@ -10,8 +10,8 @@
     --text-light: #666;
     --bg-light: #88b888;
     --white: #ffffff;
-    --shadow: 0 4px 20px rgba(0,0,0,0.1);
-    --shadow-hover: 0 8px 30px rgba(0,0,0,0.15);
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.15);
 }
 
 /* Estilos generales */
@@ -31,7 +31,8 @@ header {
     color: white;
     box-shadow: var(--shadow);
     position: relative;
-    overflow: hidden;
+    overflow: visible;
+    z-index: 100;
 }
 
 header::before {
@@ -46,8 +47,15 @@ header::before {
 }
 
 @keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-20px) rotate(180deg); }
+
+    0%,
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-20px) rotate(180deg);
+    }
 }
 
 header h1 {
@@ -57,7 +65,7 @@ header h1 {
     margin-bottom: 1rem;
     position: relative;
     z-index: 2;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 footer {
@@ -99,7 +107,7 @@ footer {
     text-decoration: none;
     padding: 0.5rem 1rem;
     border-radius: 25px;
-    background: rgba(255,255,255,0.1);
+    background: rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
     font-size: 0.9rem;
 }
@@ -110,7 +118,7 @@ footer {
 }
 
 .footer-bottom {
-    border-top: 1px solid rgba(255,255,255,0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
     padding-top: 2rem;
     margin-top: 2rem;
 }
@@ -143,7 +151,7 @@ nav ul li a {
     justify-content: center;
     width: 100%;
     padding: 0;
-    margin: 0;   
+    margin: 0;
 }
 
 .navbar-nav .nav-link {
@@ -158,15 +166,15 @@ nav ul li a {
 }
 
 .navbar-nav .nav-link:hover {
-    background-color: rgba(255,255,255,0.2);
+    background-color: rgba(255, 255, 255, 0.2);
     transform: translateY(-2px);
 }
 
-#logo{
+#logo {
     max-width: 100%;
     height: auto;
 }
-  
+
 #horario {
     background-color: var(--bg-light);
     padding: 10px;
@@ -224,7 +232,7 @@ nav ul li a {
     background: var(--white);
     border-radius: 15px;
     border-left: 4px solid var(--accent-color);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     transition: transform 0.3s ease;
 }
 
@@ -303,7 +311,7 @@ nav ul li a {
     margin-bottom: 1rem;
 }
 
-.social > p {
+.social>p {
     color: var(--text-light);
     margin-bottom: 3rem;
     font-size: 1.1rem;
@@ -340,7 +348,7 @@ nav ul li a {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
     transition: left 0.6s;
 }
 
@@ -412,9 +420,17 @@ nav ul li a {
 }
 
 @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
-    70% { box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+    0% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(37, 211, 102, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+    }
 }
 
 /* ===== ESTILOS ORIGINALES PARA OTRAS PÁGINAS ===== 
@@ -426,8 +442,7 @@ nav ul li a {
 }
 
 
-Diseño de productos */
-.producto {
+Diseño de productos */ .producto {
     display: inline-block;
     width: 250px;
     margin: 20px;
@@ -448,7 +463,7 @@ Diseño de productos */
     max-width: 200px;
     height: 200px;
     display: block;
-    margin: 0 auto; 
+    margin: 0 auto;
     object-fit: cover;
     border-radius: 10px;
 }
@@ -546,34 +561,36 @@ button.agregar-carrito:hover {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+
     .about-content,
     .footer-content {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
-    
+
     header h1 {
         font-size: 2rem;
     }
-    
+
     #nosotros h2 {
         font-size: 2.2rem;
     }
-    
+
     .social-icons-container {
         gap: 1rem;
     }
-    
+
     .map {
         width: 100%;
         height: 300px;
     }
-    
+
     .navbar-nav .nav-link {
         padding: 0.3rem 1rem !important;
         margin: 0.1rem;
     }
 }
+
 /* ===== AGREGAR ESTAS REGLAS AL FINAL DE TU style.css ===== */
 
 /* Mejoras para la página de productos */
@@ -639,7 +656,8 @@ button.agregar-carrito:hover {
 
 /* Carrusel items - convertir a grid también */
 .carrusel-item {
-    display: contents; /* Esto permite que los hijos se distribuyan en el grid padre */
+    display: contents;
+    /* Esto permite que los hijos se distribuyan en el grid padre */
 }
 
 /* Estilos mejorados para las tarjetas de productos */
@@ -647,7 +665,8 @@ button.agregar-carrito:hover {
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 500px; /* Altura fija para todas las tarjetas */
+    height: 500px;
+    /* Altura fija para todas las tarjetas */
     padding: 1.5rem;
     border: none;
     border-radius: 20px;
@@ -665,7 +684,7 @@ button.agregar-carrito:hover {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
     transition: left 0.8s;
 }
 
@@ -681,7 +700,8 @@ button.agregar-carrito:hover {
 /* Imagen del producto con tamaño fijo */
 .producto-imagen {
     width: 100%;
-    height: 200px; /* Altura fija para todas las imágenes */
+    height: 200px;
+    /* Altura fija para todas las imágenes */
     object-fit: cover;
     border-radius: 15px;
     margin-bottom: 1rem;
@@ -720,13 +740,15 @@ button.agregar-carrito:hover {
     font-weight: 600;
     color: var(--secondary-color);
     font-size: 1.1rem;
-    margin-top: auto; /* Empuja el precio hacia abajo */
+    margin-top: auto;
+    /* Empuja el precio hacia abajo */
     margin-bottom: 1rem;
 }
 
 /* Botón mejorado */
 .carrito {
-    margin-top: auto; /* Empuja el botón hacia abajo */
+    margin-top: auto;
+    /* Empuja el botón hacia abajo */
     padding: 0.8rem 1.5rem;
     background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
     color: white;
@@ -774,7 +796,8 @@ button.agregar-carrito:hover {
 .scroll-top-btn {
     position: fixed;
     bottom: 30px;
-    right: 100px; /* Ajusta según si tienes botón de WhatsApp */
+    right: 100px;
+    /* Ajusta según si tienes botón de WhatsApp */
     width: 55px;
     height: 55px;
     background: linear-gradient(135deg, #4a7c4a, #2d5a2d);
@@ -787,7 +810,7 @@ button.agregar-carrito:hover {
     opacity: 0;
     visibility: hidden;
     transition: all 0.4s ease;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -799,11 +822,143 @@ button.agregar-carrito:hover {
     visibility: visible;
 }
 
+/* ===== ESTILOS PARA AUTENTICACIÓN ===== */
+
+/* Tarjeta de autenticación */
+.auth-card {
+    background: white;
+    padding: 3rem 2.5rem;
+    border-radius: 20px;
+    box-shadow: var(--shadow-hover);
+    margin: 2rem auto;
+    max-width: 500px;
+}
+
+/* Logo en páginas de auth */
+.auth-logo {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid var(--primary-color);
+    box-shadow: var(--shadow);
+}
+
+/* Inputs de formularios de auth */
+.auth-card .form-control {
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    border: 2px solid #e0e0e0;
+    transition: all 0.3s ease;
+}
+
+.auth-card .form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(45, 90, 45, 0.25);
+}
+
+/* Botones en páginas de auth */
+.auth-card .btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.auth-card .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(45, 90, 45, 0.3);
+}
+
+.auth-card .btn-outline-primary {
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.auth-card .btn-outline-primary:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Input group buttons */
+.auth-card .input-group .btn-outline-secondary {
+    border-color: #e0e0e0;
+    color: var(--text-light);
+}
+
+.auth-card .input-group .btn-outline-secondary:hover {
+    background: var(--bg-light);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+/* Labels */
+.auth-card .form-label {
+    font-weight: 500;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.auth-card .form-label i {
+    color: var(--primary-color);
+    margin-right: 0.5rem;
+}
+
+/* Dropdown en navbar */
+.navbar-nav .dropdown-menu {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    margin-top: 0.5rem;
+    min-width: 200px;
+    padding: 0.5rem 0;
+    z-index: 9999 !important;
+    position: absolute !important;
+}
+
+.navbar-nav .dropdown-item {
+    padding: 0.75rem 1.5rem;
+    transition: all 0.3s ease;
+    color: var(--text-dark);
+}
+
+.navbar-nav .dropdown-item:hover {
+    background: var(--bg-light);
+    color: var(--primary-color);
+}
+
+.navbar-nav .dropdown-divider {
+    margin: 0.5rem 0;
+    border-color: #e0e0e0;
+}
+
+/* Responsive para auth */
+@media (max-width: 768px) {
+    .auth-card {
+        padding: 2rem 1.5rem;
+        margin: 1rem;
+    }
+
+    .auth-logo {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+
 /* Hover effect */
 .scroll-top-btn:hover {
     background: linear-gradient(135deg, #2d5a2d, #4a7c4a);
     transform: scale(1.1);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
 }
 
 /* Active effect */
@@ -813,12 +968,19 @@ button.agregar-carrito:hover {
 
 /* Animación bounce */
 @keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
         transform: translateY(0);
     }
+
     40% {
         transform: translateY(-10px);
     }
+
     60% {
         transform: translateY(-5px);
     }
@@ -849,19 +1011,21 @@ button.agregar-carrito:hover {
 
 /* Responsive design para productos */
 @media (max-width: 1200px) {
+
     #productos-conservas,
     #productos-artesanias,
     #productos-cuidado-personal {
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         gap: 1.5rem;
     }
-    
+
     .producto {
         height: 420px;
     }
 }
 
 @media (max-width: 768px) {
+
     #productos-conservas,
     #productos-artesanias,
     #productos-cuidado-personal {
@@ -869,29 +1033,29 @@ button.agregar-carrito:hover {
         gap: 1rem;
         padding: 0 1rem;
     }
-    
+
     .producto {
         height: 400px;
         padding: 1rem;
     }
-    
+
     .producto-imagen {
         height: 160px;
     }
-    
+
     .info h4 {
         font-size: 1.2rem;
     }
-    
+
     .info p {
         font-size: 0.9rem;
     }
-    
+
     .carrito {
         padding: 0.6rem 1.2rem;
         font-size: 0.9rem;
     }
-    
+
     .scroll-top-btn {
         right: 20px;
         width: 45px;
@@ -901,16 +1065,17 @@ button.agregar-carrito:hover {
 }
 
 @media (max-width: 480px) {
+
     #productos-conservas,
     #productos-artesanias,
     #productos-cuidado-personal {
         grid-template-columns: 1fr;
     }
-    
+
     .producto {
         height: 380px;
     }
-    
+
     .producto-imagen {
         height: 140px;
     }
